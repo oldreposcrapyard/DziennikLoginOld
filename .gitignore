@@ -1,2 +1,4 @@
 # Ignore Linux temporary files
 *~
+# Ignore local passwords file
+config.local.php

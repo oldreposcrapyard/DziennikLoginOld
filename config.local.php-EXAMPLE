@@ -1,0 +1,5 @@
+<?php
+$CONF = array();
+$CONF['dziennikUsername'] = 'username';
+$CONF['dziennikPassword'] = 'password';
+?>
