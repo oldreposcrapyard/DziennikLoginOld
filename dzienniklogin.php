@@ -26,15 +26,12 @@ https://92.55.225.11/dbviewer/view_data.php?view_name=uczen_uczen_arkusz_ocen_se
 method:
 POST
 */
-// Necessary data
-$username = 'username';
-$password = 'password';
+require ('config.local.php');
 // Necessary urls
 $login_url = 'https://92.55.225.11/dbviewer/login.php';
 $grades_url = 'https://92.55.225.11/dbviewer/view_data.php?view_name=uczen_uczen_arkusz_ocen_semestr.view';
- 
 //These are the post data
-$post_data = 'user_name='.$username.'&user_passwd='.$password.'&con=e-dziennik-szkola01.con';
+$post_data = 'user_name='.$CONF['dziennikUsername'].'&user_passwd='.$CONF['dziennikPassword'].'&con=e-dziennik-szkola01.con';
 
 //Create a curl object
 $ch = curl_init();
@@ -84,6 +81,5 @@ $gradesResult = curl_exec($ch);
 //Free up resources
 curl_close($ch);
 
-echo $gradesResult;
-
+echo htmlentities($gradesResult);
 ?>
