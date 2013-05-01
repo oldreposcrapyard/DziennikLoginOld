@@ -1,4 +1,4 @@
 DziennikLogin
 =============
 
-A simple app to directly access e-dzienik grades. (EKOS)
+A simple app to directly access e-dziennik grades. (EKOS)

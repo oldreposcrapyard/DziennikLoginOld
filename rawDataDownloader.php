@@ -76,10 +76,17 @@ curl_setopt($ch, CURLOPT_URL, $grades_url);
 //set referrer
 curl_setopt ($ch, CURLOPT_REFERER, $login_url); 
 //Execute
-$gradesResult = curl_exec($ch);
+$queryResult = curl_exec($ch);
 
 //Free up resources
 curl_close($ch);
 
-echo htmlentities($gradesResult);
+//Put the contents into file
+$currentTime = time();
+//data directory needs to have chmod 0775
+$contentFile = './data/'.md5($CONF['dziennikUsername'].$CONF['saltHash']).'_grades_'.$currentTime.'.html';//create filename
+$fileHandle = fopen($contentFile, 'w');//open file for writing
+fwrite($fileHandle, $queryResult);//write
+fclose($fileHandle);//close the file
+echo 'DONE';
 ?>

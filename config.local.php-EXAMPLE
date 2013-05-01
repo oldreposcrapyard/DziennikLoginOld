@@ -2,4 +2,5 @@
 $CONF = array();
 $CONF['dziennikUsername'] = 'username';
 $CONF['dziennikPassword'] = 'password';
+$CONF['saltHash']         = 'PLACERANDOMHASHHERE';
 ?>
