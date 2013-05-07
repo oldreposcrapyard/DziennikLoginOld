@@ -7,7 +7,7 @@ require 'simple_html_dom.php';
 //Define encoding
 echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
 //INPUT!
-$file          = 'EXAMPLEDATA.html';
+$file          = '25aee6451cf293f85f56e806815a0f15_grades_1367928713.html';//EXAMPLEDATA.html
 //Lets get something to eat!
 $html          = file_get_html($file);
 //Count the subjects:
@@ -35,7 +35,7 @@ while ($i < $subjectsCount) {
         $subjectAverage = trim($html->find('table', 4)->find('tr', $i)->find('.cell-style-srednia', 0)->plaintext);
     } else {
         //No food for ya!
-        $subjectAverage = ' BRAK';
+        $subjectAverage = 'BRAK';
     }
     echo 'AVERAGE:"'.$subjectAverage.'"' . '<br>';
     //Grades
@@ -44,8 +44,9 @@ while ($i < $subjectsCount) {
     $gradesCount  = count($gradesNumber);
     //process each cell
     while ($x < $gradesCount) {
-        $found = $html->find('table', 4)->find('tr', $i)->find('td', $x)->plaintext; // get the pure text 
-        $found = filter_var($found, FILTER_SANITIZE_NUMBER_INT);
+        $found = $html->find('table', 4)->find('tr', $i)->find('td', $x)->plaintext; //get the pure text 
+        $abbrev = trim(substr ($found ,0 ,3));//grade abbreviation
+        $found = filter_var($found, FILTER_SANITIZE_NUMBER_INT);//get the number
         //Check if it contains numbers
         if (strcspn($found, '0123456789') != strlen($found)) {
             $hasNumbers = TRUE;
@@ -61,8 +62,14 @@ while ($i < $subjectsCount) {
                 $title  = $mouseDom->find('i', 1)->plaintext; //title of grade
                 $group  = $mouseDom->find('p', '1')->plaintext; //group of grade
                 $weight = trim($mouseDom->find('td', '3')->plaintext); //weight of grade
+                if(strcspn($weight, '0123456789') != strlen($weight)){//check if its really number that we want
+                }
+                else{
+                $weight = '1,00';
+                }
                 $date   = $mouseDom->find('td', '1')->plaintext; //date of grade
-                echo '<br>GRADE:"'.$found.'"'.'<br>TITLE:"'.$title.'"'.'<br>GROUP:"'.$group.'"'.'<br>WEIGHT:"'.$weight.'"'.'<br>DATE:"'.$date.'"'.'<br><br>';
+                
+                echo '<br>GRADE:"'.$found.'"'.'<br>TITLE:"'.$title.'"'.'<br>GROUP:"'.$group.'"'.'<br>WEIGHT:"'.$weight.'"'.'<br>DATE:"'.$date.'"<br>'.'ABBREV:'.'"'.$abbrev.'"'.'<br><br>';
             } else { //Then if it doesn't:
                 //$hasNumbers = FALSE;
             }
