@@ -96,6 +96,9 @@ $xmlDoc = new DOMDocument('1.0', 'UTF-8');
 //create the root element
 $root = $xmlDoc->appendChild(
           $xmlDoc->createElement("registerGrades"));
+//create the subjects element
+$subjectsElement = $root->appendChild(
+          $xmlDoc->createElement("registerSubjects"));
        
 //make the output pretty
 $xmlDoc->formatOutput = true;
@@ -117,7 +120,7 @@ $x = 2; //cell offset, 0 is subject name, 1 is average
 while ($i < $subjectsCount) {
     $i++; //(0 is title row)
     // XML:create a subject element
-    $subjectElement = $root->appendChild($xmlDoc->createElement("subject"));
+    $subjectElement = $subjectsElement->appendChild($xmlDoc->createElement("subject"));
     //Hey, the subjectname:
     $subjectName = $html->find('table', 4)->find('tr', $i)->find('td', 0)->plaintext; //$html->find('ul', 0)->find('li', 0);
     $subjectName = trim(str_replace('&nbsp;','',$subjectName));//Get rid of that nasty NBSP and whitespace
@@ -154,6 +157,7 @@ while ($i < $subjectsCount) {
             $gradeTitle  = $mouseDom->find('i', 1)->plaintext; //title of grade
             $gradeGroup  = $mouseDom->find('p', '1')->plaintext; //group of grade
             $gradeWeight = trim($mouseDom->find('td', '3')->plaintext); //weight of grade
+            unset($mouseDom);//free up resources
             if(strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)){//check if its really number, if not, then its 1
             $gradeWeight = '1,00';
             }
@@ -187,7 +191,6 @@ while ($i < $subjectsCount) {
 //Clean up after ourselves ;)
 $html->clear();
 unset($html);
-
 
 //TIME
 $time_end = microtime(true);
