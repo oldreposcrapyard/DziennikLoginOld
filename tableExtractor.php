@@ -147,40 +147,37 @@ while ($i < $subjectsCount) {
             $gradeValueHasNumbers = FALSE;
         }
         
-        if (!empty($gradeCell)) {
+        if (!empty($gradeCell) && $gradeValueHasNumbers) {
             $onmouseover = $html->find('table', 4)->find('tr', $i)->find('td', $x)->onmouseover;
             $mouseDom    = str_get_html($onmouseover);
-            //If it has numbers
-            if ($gradeValueHasNumbers == TRUE) {
-                $gradeDate   = $mouseDom->find('td', '1')->plaintext; //date of grade
-                $gradeTitle  = $mouseDom->find('i', 1)->plaintext; //title of grade
-                $gradeGroup  = $mouseDom->find('p', '1')->plaintext; //group of grade
-                $gradeWeight = trim($mouseDom->find('td', '3')->plaintext); //weight of grade
-                if(strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)){//check if its really number that we want, if not, then its 0
-                $gradeWeight = '1,00';
-                }
+            $gradeDate   = $mouseDom->find('td', '1')->plaintext; //date of grade
+            $gradeTitle  = $mouseDom->find('i', 1)->plaintext; //title of grade
+            $gradeGroup  = $mouseDom->find('p', '1')->plaintext; //group of grade
+            $gradeWeight = trim($mouseDom->find('td', '3')->plaintext); //weight of grade
+            if(strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)){//check if its really number, if not, then its 1
+            $gradeWeight = '1,00';
+            }
 
-                //write data to XML file!
-                // XML:create a grade element
-                 $grade = $subjectElement->appendChild($xmlDoc->createElement("grade"));
-                  // XML:create a gradeValue element/child
-                  $gradeValueElement = $grade->appendChild($xmlDoc->createElement("gradeValue",$gradeValue));
+            //write data to XML file!
+            // XML:create a grade element
+            $grade = $subjectElement->appendChild($xmlDoc->createElement("grade"));
+            // XML:create a gradeValue element/child
+            $gradeValueElement = $grade->appendChild($xmlDoc->createElement("gradeValue",$gradeValue));
 
-                  // XML:create a gradeWeight element/child
-                  $gradeWeightElement = $grade->appendChild($xmlDoc->createElement("gradeWeight",$gradeWeight));
+            // XML:create a gradeWeight element/child
+            $gradeWeightElement = $grade->appendChild($xmlDoc->createElement("gradeWeight",$gradeWeight));
 
-                  // XML:create a gradeAbbrev element/child
-                  $gradeAbbrevElement = $grade->appendChild($xmlDoc->createElement("gradeAbbrev",$gradeAbbrev));
+            // XML:create a gradeAbbrev element/child
+            $gradeAbbrevElement = $grade->appendChild($xmlDoc->createElement("gradeAbbrev",$gradeAbbrev));
 
-                  // XML:create a gradeDate element/child
-                  $gradeDateElement = $grade->appendChild($xmlDoc->createElement("gradeDate",$gradeDate));
+            // XML:create a gradeDate element/child
+            $gradeDateElement = $grade->appendChild($xmlDoc->createElement("gradeDate",$gradeDate));
 
-                  // XML:create a gradeTitle element/child
-                  $gradeTitleElement = $grade->appendChild($xmlDoc->createElement("gradeTitle",$gradeTitle));
+            // XML:create a gradeTitle element/child
+            $gradeTitleElement = $grade->appendChild($xmlDoc->createElement("gradeTitle",$gradeTitle));
 
-                  // XML:create a gradeGroup element/child
-                  $gradeGroupElement = $grade->appendChild($xmlDoc->createElement("gradeGroup",$gradeGroup));
-            } 
+            // XML:create a gradeGroup element/child
+            $gradeGroupElement = $grade->appendChild($xmlDoc->createElement("gradeGroup",$gradeGroup));
             
         }
         $x++;
