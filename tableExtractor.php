@@ -89,10 +89,6 @@ $queryResult = curl_exec($ch);
 //Free up resources
 curl_close($ch);
 
-
-//Define encoding
-//echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
-
 //XML
 //create the xml document
 $xmlDoc = new DOMDocument('1.0', 'UTF-8');
@@ -105,6 +101,7 @@ $root = $xmlDoc->appendChild(
 $xmlDoc->formatOutput = true;
 //END XML
 
+//PARSING HTML:
 //Lets get something to eat!
 $html          = str_get_html($queryResult);
 //Count the subjects:
@@ -114,8 +111,6 @@ $rowsOdd       = $html->find('table', 4)->find('.data_odd');
 $countOdd      = count($rowsOdd);
 $subjectsCount = $countOdd + $countEven; //18
 
-//echo "ILOSC PRZEDMIOTOW:$subjectsCount<br>"; //Echo, echo :p
-
 //Here We Go!
 $i = 0;
 $x = 2; //cell offset, 0 is subject name, 1 is average
@@ -123,14 +118,12 @@ while ($i < $subjectsCount) {
     $i++; //(0 is title row)
     // XML:create a subject element
     $subjectElement = $root->appendChild($xmlDoc->createElement("subject"));
-    //The number:
-    //echo 'NUMBER:'.$i;
     //Hey, the subjectname:
     $subjectName = $html->find('table', 4)->find('tr', $i)->find('td', 0)->plaintext; //$html->find('ul', 0)->find('li', 0);
     $subjectName = trim(str_replace('&nbsp;','',$subjectName));//Get rid of that nasty NBSP and whitespace
-    // XML:create a subjectName element
-    $subjectNameElement = $subjectElement->appendChild($xmlDoc->createElement("name",$subjectName));
-    //echo 'SUBJECTNAME:'.'"'.$subjectName.'"';
+    // XML:create a subjectName attribute
+    $subjectElement->appendChild($xmlDoc->createAttribute("subjectName"))->appendChild($xmlDoc->createTextNode($subjectName));
+    //$subjectNameElement = $subjectElement->appendChild($xmlDoc->createElement("name",$subjectName));
     // The average ones get to eat too:
     if (!empty($html->find('table', 4)->find('tr', $i)->find('.cell-style-srednia', 0)->plaintext)) {
         $subjectAverage = trim($html->find('table', 4)->find('tr', $i)->find('.cell-style-srednia', 0)->plaintext);
@@ -140,24 +133,23 @@ while ($i < $subjectsCount) {
     }
     // XML:create a subjectAverage element
     $subjectAverageElement = $subjectElement->appendChild($xmlDoc->createElement("average",$subjectAverage));
-    //echo 'AVERAGE:"'.$subjectAverage.'"' . '<br>';
     //Grades
     //Count the cells in the row:
     $gradesNumber = $html->find('table', 4)->find('tr', $i)->find('td');
     $gradesCount  = count($gradesNumber);
     //process each cell(grade)
     while ($x < $gradesCount) {
-        $found = $html->find('table', 4)->find('tr', $i)->find('td', $x)->plaintext; //get the pure text 
-        $gradeAbbrev = trim(substr ($found ,0 ,3));//grade abbreviation
-        $gradeValue = filter_var($found, FILTER_SANITIZE_NUMBER_INT);//get the number
+        $gradeCell = $html->find('table', 4)->find('tr', $i)->find('td', $x)->plaintext; //get the pure text 
+        $gradeAbbrev = trim(substr ($gradeCell ,0 ,3));//grade abbreviation (the text from cell)
+        $gradeValue = filter_var($gradeCell, FILTER_SANITIZE_NUMBER_INT);//grade numerical value (the number from cell)
         //Check if it contains numbers
-        if (strcspn($found, '0123456789') != strlen($found)) {
+        if (strcspn($gradeCell, '0123456789') != strlen($gradeCell)) {
             $gradeValueHasNumbers = TRUE;
         } else {
             $gradeValueHasNumbers = FALSE;
         }
         
-        if (!empty($found)) {
+        if (!empty($gradeCell)) {
             $onmouseover = $html->find('table', 4)->find('tr', $i)->find('td', $x)->onmouseover;
             $mouseDom    = str_get_html($onmouseover);
             //If it has numbers
@@ -190,14 +182,6 @@ while ($i < $subjectsCount) {
 
                   // XML:create a gradeGroup element/child
                   $gradeGroupElement = $grade->appendChild($xmlDoc->createElement("gradeGroup",$gradeGroup));
-                           
-                  // XML:FOR LATER:create subjectname attribute
-                  //$tutTag->appendChild(
-                  //  $xmlDoc->createAttribute("subjestName"))->appendChild(
-                  //    $xmlDoc->createTextNode($tut->author)); //!!!!!!
-
-
-                //echo '<br>GRADE:"'.$found.'"'.'<br>TITLE:"'.$title.'"'.'<br>GROUP:"'.$group.'"'.'<br>WEIGHT:"'.$weight.'"'.'<br>DATE:"'.$date.'"<br>'.'ABBREV:'.'"'.$abbrev.'"'.'<br><br>';
             } 
             
         }
