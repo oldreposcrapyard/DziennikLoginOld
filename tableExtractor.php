@@ -123,7 +123,6 @@ while ($i < $subjectsCount) {
     $subjectName = trim(str_replace('&nbsp;','',$subjectName));//Get rid of that nasty NBSP and whitespace
     // XML:create a subjectName attribute
     $subjectElement->appendChild($xmlDoc->createAttribute("subjectName"))->appendChild($xmlDoc->createTextNode($subjectName));
-    //$subjectNameElement = $subjectElement->appendChild($xmlDoc->createElement("name",$subjectName));
     // The average ones get to eat too:
     if (!empty($html->find('table', 4)->find('tr', $i)->find('.cell-style-srednia', 0)->plaintext)) {
         $subjectAverage = trim($html->find('table', 4)->find('tr', $i)->find('.cell-style-srednia', 0)->plaintext);
@@ -135,11 +134,10 @@ while ($i < $subjectsCount) {
     $subjectAverageElement = $subjectElement->appendChild($xmlDoc->createElement("average",$subjectAverage));
     //Grades
     //Count the cells in the row:
-    $gradesNumber = $html->find('table', 4)->find('tr', $i)->find('td');
-    $gradesCount  = count($gradesNumber);
+    $gradesCount  = count($html->find('table', 4)->find('tr', $i)->find('td'));
     //process each cell(grade)
     while ($x < $gradesCount) {
-        $gradeCell = $html->find('table', 4)->find('tr', $i)->find('td', $x)->plaintext; //get the pure text 
+        $gradeCell = $html->find('table', 4)->find('tr', $i)->find('td', $x)->plaintext; //get the cell value
         $gradeAbbrev = trim(substr ($gradeCell ,0 ,3));//grade abbreviation (the text from cell)
         $gradeValue = filter_var($gradeCell, FILTER_SANITIZE_NUMBER_INT);//grade numerical value (the number from cell)
         //Check if it contains numbers
