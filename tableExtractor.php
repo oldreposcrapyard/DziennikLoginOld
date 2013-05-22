@@ -157,6 +157,7 @@ while ($i < $subjectsCount) {
             $gradeTitle  = $mouseDom->find('i', 1)->plaintext; //title of grade
             $gradeGroup  = $mouseDom->find('p', '1')->plaintext; //group of grade
             $gradeWeight = trim($mouseDom->find('td', '3')->plaintext); //weight of grade
+            $mouseDom->clear();
             unset($mouseDom);//free up resources
             if(strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)){//check if its really number, if not, then its 1
             $gradeWeight = '1,00';
