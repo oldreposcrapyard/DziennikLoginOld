@@ -2,3 +2,9 @@
 *~
 # Ignore local passwords file
 config.local.php
+# Ignore vendor directory
+/vendor
+# Ignore aptana
+.project
+# Ignore composer
+composer.phar
