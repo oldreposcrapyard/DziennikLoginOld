@@ -1,3 +1,3 @@
 <?php
-    phpinfo();
+//An index file will be here
 ?>
