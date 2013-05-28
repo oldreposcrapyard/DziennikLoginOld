@@ -8,6 +8,7 @@
 require 'simple_html_dom.php';
 
 function extractData($downloadedData){
+$startTime = microtime(TRUE);
 //XML
 //create the xml document
 $xmlDoc = new DOMDocument('1.0', 'UTF-8');
@@ -113,13 +114,13 @@ $html->clear();
 unset($html);
 
 //TIME
-$time_end = microtime(true);
+$endTime = microtime(true);
 
 //dividing with 60 will give the execution time in minutes other wise seconds
-$execution_time = ($time_end - $time_start);
+$getExecutionTime = ($endTime - $startTime);
 
 // XML:create a executionTime element
-$executionTime = $root->appendChild($xmlDoc->createElement('executionTime',$execution_time));
+$executionTime = $root->appendChild($xmlDoc->createElement('executionTime',$getExecutionTime));
 //Return output xml
 return $xmlDoc->saveXML();
 }
