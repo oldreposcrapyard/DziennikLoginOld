@@ -5,6 +5,16 @@
 // github.com/marcinlawnik
 
 function downloadData($userUsername,$userPassword){
+//Validation
+if(!isset($userUsername))
+{
+	return FALSE;
+}
+if(!isset($userPassword))
+{
+	return FALSE;
+}
+
 // Necessary urls
 $urlLogin = 'https://92.55.225.11/dbviewer/login.php';
 $urlGrades = 'https://92.55.225.11/dbviewer/view_data.php?view_name=uczen_uczen_arkusz_ocen_semestr.view';
@@ -59,7 +69,12 @@ $queryResult = curl_exec($ch);
 //Free up resources
 curl_close($ch);
 
-return $queryResult;
+if ($queryResult != '') {
+	return $queryResult;
+}else{
+	return FALSE;
+}
+	
 }
 
 ?>
