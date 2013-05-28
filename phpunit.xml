@@ -2,7 +2,7 @@
 <phpunit colors="true">
     <testsuites>
         <testsuite name="DziennikLogin Test Suite">
-            <directory>./DziennikLogin/Test/</directory>
+            <directory>./Test/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
