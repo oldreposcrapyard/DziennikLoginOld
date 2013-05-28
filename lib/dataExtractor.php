@@ -1,94 +1,13 @@
 <?php
-header("Content-Type: text/xml");//were outputting text
-$time_start = microtime(true);
-error_reporting(E_ALL);
-
-//include library
-require 'simple_html_dom.php';
-require 'config.local.php';
 // simple app to access e-dziennik grades through curl
 // Marcin Ławniczak
 // marcin.safmb@gmail.com
 // github.com/marcinlawnik
 
-// TODO:
-// Supply the password in other way (encrypted post?)
-// Split the project into downloader -> parser -> output file
-// Write teh parser (damn you, awful table layout!)
-// Get this into nice graphical form
-// Write an android app :) (It is good to have faith and dreams...)
+//include library
+require 'simple_html_dom.php';
 
-/*
-Data Gathered:
-login field name: 
-user_name
-password field name:
-user_passwd
-additional imput:
-<input type="hidden" name="con" value="e-dziennik-szkola01.con">
-login page address: 
-https://92.55.225.11/dbviewer/login.php
-page with grades:
-https://92.55.225.11/dbviewer/view_data.php?view_name=uczen_uczen_arkusz_ocen_semestr.view
-method:
-POST
-*/
-
-//QUERY THE REGISTER!
-// Necessary urls
-$login_url = 'https://92.55.225.11/dbviewer/login.php';
-$grades_url = 'https://92.55.225.11/dbviewer/view_data.php?view_name=uczen_uczen_arkusz_ocen_semestr.view';
-//These are the post data
-$post_data = 'user_name='.$CONF['dziennikUsername'].'&user_passwd='.$CONF['dziennikPassword'].'&con=e-dziennik-szkola01.con';
-
-//Create a curl object
-$ch = curl_init();
-
-//IGNORE SSL
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);     
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); 
-//Set the useragent (My linux box!)
-$agent = 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.22 (KHTML, like Gecko) Ubuntu Chromium/25.0.1364.160 Chrome/25.0.1364.160 Safari/537.22';
-curl_setopt($ch, CURLOPT_USERAGENT, $agent);
- 
-//Set the URL
-curl_setopt($ch, CURLOPT_URL, $login_url );
- 
-//This is a POST query
-curl_setopt($ch, CURLOPT_POST, 1 );
- 
-//Set the post data
-curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
- 
-//We want the content after the query
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
- 
-//Follow Location redirects
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-//set timeout
-curl_setopt($ch, CURLOPT_TIMEOUT, 60);
- 
-/*
-Set the cookie storing files
-Cookie files are necessary since we are logging and session data needs to be saved
-*/
- 
-curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');
-curl_setopt($ch, CURLOPT_COOKIEFILE, 'cookie.txt');
- 
-//Execute the action to login
-$postResult = curl_exec($ch);
-
-// Go to page with grades
-curl_setopt($ch, CURLOPT_URL, $grades_url);
-//set referrer
-curl_setopt ($ch, CURLOPT_REFERER, $login_url); 
-//Execute
-$queryResult = curl_exec($ch);
-
-//Free up resources
-curl_close($ch);
-
+function extractData($downloadedData){
 //XML
 //create the xml document
 $xmlDoc = new DOMDocument('1.0', 'UTF-8');
@@ -106,13 +25,13 @@ $xmlDoc->formatOutput = true;
 
 //PARSING HTML:
 //Lets get something to eat!
-$html          = str_get_html($queryResult);
+$html          = str_get_html($downloadedData);
 //Count the subjects:
 $rowsEven      = $html->find('table', 4)->find('.data_even');
 $countEven     = count($rowsEven);
 $rowsOdd       = $html->find('table', 4)->find('.data_odd');
 $countOdd      = count($rowsOdd);
-$subjectsCount = $countOdd + $countEven; //18
+$subjectsCount = $countOdd + $countEven; //18 for me
 
 //Here We Go!
 $i = 0;
@@ -201,7 +120,7 @@ $execution_time = ($time_end - $time_start);
 
 // XML:create a executionTime element
 $executionTime = $root->appendChild($xmlDoc->createElement('executionTime',$execution_time));
-//Print output xml
-echo $xmlDoc->saveXML();
-
+//Return output xml
+return $xmlDoc->saveXML();
+}
 ?>
