@@ -27,8 +27,8 @@ function generateReport($xmlData,$reportType){
 
             while ($subjectsDone < $subjectsCount) {
             		
-				$returnedMessage .= "Przedmiot:".$xmlDom->registerSubjects->subject[$subjectsDone]['subjectName']."\r\n";
-				//$returnedMessage .= 'Średnia:'.$xmlDom->registerSubjects->subject[$subjectsDone]->subjectAverage."\r\n"; DOESNRT WORK
+				$returnedMessage .= "Przedmiot:".$xmlDom->registerSubjects->subject[$subjectsDone]['subjectName']."\r\n"
+				."Średnia:".$xmlDom->registerSubjects->subject[$subjectsDone]->average."\r\n";
 				$gradesCount = count($xmlDom->registerSubjects->subject[$subjectsDone])-1;
 				while ($gradesDone < $gradesCount) {
 						$returnedMessage .= 'Ocena:'.$xmlDom->registerSubjects->subject[$subjectsDone]->grade->gradeValue."\r\n";
