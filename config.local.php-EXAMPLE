@@ -1,6 +1,7 @@
 <?php
 $CONF = array();
-$CONF['dziennikUsername'] = 'username';
-$CONF['dziennikPassword'] = 'password';
+$CONF['databaseHost'] = 'host';
+$CONF['databaseUsername'] = 'username';
+$CONF['databasePassword'] = 'password';
 $CONF['saltHash']         = 'PLACERANDOMHASHHERE';
 ?>

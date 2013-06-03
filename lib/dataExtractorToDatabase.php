@@ -8,22 +8,21 @@
 require 'simple_html_dom.php';
 require '../config.local.php';
 
-function extractData($downloadedData){
+function extractDataToDatabase($downloadedData,$db_host,$db_name,$db_username,$db_password){
 $startTime = microtime(TRUE);
-//XML
-//create the xml document
-$xmlDoc = new DOMDocument('1.0', 'UTF-8');
+//---------------------------
+// Database connection
+//---------------------------
+try {
+    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_username, $db_password, array(
+        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+    ));
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch (PDOException $e) {
+    return 'Błąd bazy danych:' . $e->getMessage();
+}
 
-//create the root element
-$root = $xmlDoc->appendChild(
-          $xmlDoc->createElement("registerGrades"));
-//create the subjects element
-$subjectsElement = $root->appendChild(
-          $xmlDoc->createElement("registerSubjects"));
-       
-//make the output pretty
-$xmlDoc->formatOutput = true;
-//END XML
 
 //PARSING HTML:
 //Lets get something to eat!

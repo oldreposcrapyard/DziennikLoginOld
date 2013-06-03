@@ -7,7 +7,7 @@
 //include library
 require 'simple_html_dom.php';
 
-function extractData($downloadedData){
+function extractDataToXml($downloadedData){
 $startTime = microtime(TRUE);
 //XML
 //create the xml document
