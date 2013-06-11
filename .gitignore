@@ -8,3 +8,4 @@ config.local.php
 .project
 # Ignore composer
 composer.phar
+/Meta/nbproject/private/

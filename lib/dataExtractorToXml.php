@@ -61,7 +61,7 @@ while ($i < $subjectsCount) {
     //process each cell(grade)
     while ($x < $gradesCount) {
         $gradeCell = $html->find('table', 4)->find('tr', $i)->find('td', $x)->plaintext; //get the cell value
-        $gradeAbbrev = trim(substr ($gradeCell ,0 ,3));//grade abbreviation (the text from cell)
+        $gradeAbbrev = strtoupper(trim(substr ($gradeCell ,0 ,3)));//grade abbreviation (the text from cell)
         $gradeValue = filter_var($gradeCell, FILTER_SANITIZE_NUMBER_INT);//grade numerical value (the number from cell)
         //Check if it contains numbers
         if (strcspn($gradeCell, '0123456789') != strlen($gradeCell)) {

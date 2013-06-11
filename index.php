@@ -1,8 +1,8 @@
 <?php
 //An index file will be here
 include 'lib/dataDownloader.php';
-include 'lib/dataExtractor.php';
-include 'lib/reportGenerator.php';
+include 'lib/dataExtractorToDatabase.php';
+//include 'lib/reportGenerator.php';
 
 if (isset($_GET['username']) && isset($_GET['password'])) {
 	$dataDownloaded = downloadData($_GET['username'],$_GET['password']);
@@ -13,15 +13,15 @@ if (isset($_GET['username']) && isset($_GET['password'])) {
 
 if($dataDownloaded != FALSE){
 
-$pureXML=extractData($dataDownloaded);
+$pureXML= extractDataToDatabase(1, $dataDownloaded, 'localhost', 'DziennikLogin', 'marcin', 'some_pass');
 
 }
 else {
 	echo 'Failed to download data!';
 }
 
-$report = generateReport($pureXML,'FULL_TEXT');
-echo '<pre>';
-echo $report;
-echo "</pre>";
+//$report = generateReport($pureXML,'FULL_TEXT');
+//echo '<pre>';
+echo $pureXML;
+//echo "</pre>";
 ?>
