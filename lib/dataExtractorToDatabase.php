@@ -106,7 +106,7 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
                     $gradeWeight = round($gradeWeight);
                 }
                 //write data to database!
-                /*                 * * prepare the SQL statement ** */
+                /* * * prepare the SQL statement * * */
                 try {
                     $stmt = $pdo->prepare("INSERT INTO `grades` (`userId`, `subjectId`,`gradeValue`, `gradeWeight`, `gradeGroup`, `gradeTitle`, `gradeDate`, `gradeAbbrev`, `gradeTrimester`, `gradeDownloadDate`, `gradeShown`) VALUES 
 	                                                (:userId, :subjectId, :gradeValue, :gradeWeight, :gradeGroup, :gradeTitle, :gradeDate, :gradeAbbrev, :gradeTrimester, CURRENT_TIMESTAMP, :gradeShown);");
@@ -128,7 +128,7 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
                         // duplicate entry, do nothing
                     } else {
                         // an error other than duplicate entry occurred
-                        return;
+                        return
                         $e->getMessage();
                     }
                 }

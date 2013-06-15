@@ -1,7 +1,9 @@
 <?php
 $CONF = array();
-$CONF['databaseHost'] = 'host';
-$CONF['databaseUsername'] = 'username';
-$CONF['databasePassword'] = 'password';
-$CONF['saltHash']         = 'PLACERANDOMHASHHERE';
+$CONF['databaseUsername'] = 'someusername';
+$CONF['databasePassword'] = 'somepass';
+$CONF['databaseHost'] = 'localhost';
+$CONF['databaseName'] = 'DziennikLogin';
+$CONF['smtpUsername'] = 'x@gmail.com';
+$CONF['smtpPassword'] = 'somepass';
 ?>

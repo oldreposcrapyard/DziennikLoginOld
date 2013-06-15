@@ -1,68 +1,41 @@
 <?php
+
 //In this file we will generate a report to be sent over various hooks
 
-function generateReport($xmlData,$reportType){
-	$xmlDom = simplexml_load_string($xmlData);
-	switch ($reportType) {
-		case 'DAILY_NEW_TEXT'://Just the new grades
-			//Witaj,
-			//W dniu wczorajszym otrzymałeś następujące oceny.
-			//foreach przedmiot: ocena1(opis), ocena2(opis), średnia
-			//Z pozdrowienaimi,
-			//DziennikLogin
-			break;
-		case 'FULL_TEXT':
-		    //All grades in the register
-			//Witaj,
-			//oto twoje oceny:
-			//foreach przedmiot: ocena1(opis), ocena2(opis), średnia
-			//Z pozdrowienaimi,
-			//DziennikLogin
-			$returnedMessage = '';
-			$returnedMessage .="Witaj,\r\noto twoje oceny:\r\n";
-			$subjectsCount = $xmlDom->registerSubjects->subject->count();
-			
-            $subjectsDone = 0;
-            $gradesDone = 0;
+function generateReport($userId, $reportType, $pdo) {
 
-            while ($subjectsDone < $subjectsCount) {
-            		
-				$returnedMessage .= "Przedmiot:".$xmlDom->registerSubjects->subject[$subjectsDone]['subjectName']."\r\n"
-				."Średnia:".$xmlDom->registerSubjects->subject[$subjectsDone]->average."\r\n";
-				$gradesCount = count($xmlDom->registerSubjects->subject[$subjectsDone])-1;
-				while ($gradesDone < $gradesCount) {
-						$returnedMessage .= 'Ocena:'.$xmlDom->registerSubjects->subject[$subjectsDone]->grade->gradeValue."\r\n";
-						$returnedMessage .= 'Waga:'.$xmlDom->registerSubjects->subject[$subjectsDone]->grade->gradeWeight."\r\n";
-						$returnedMessage .= 'Skrót:'.$xmlDom->registerSubjects->subject[$subjectsDone]->grade->gradeAbbrev."\r\n";
-						$returnedMessage .= 'Data:'.$xmlDom->registerSubjects->subject[$subjectsDone]->grade->gradeDate."\r\n";
-						$returnedMessage .= 'Tytuł:'.$xmlDom->registerSubjects->subject[$subjectsDone]->grade->gradeTitle."\r\n";
-						$returnedMessage .= 'Grupa:'.$xmlDom->registerSubjects->subject[$subjectsDone]->grade->gradeGroup."\r\n \r\n";
-						$gradesDone++;
-				}
-				$gradesDone = 0;
-            	$subjectsDone++; 
+//---------------------------
+// Database connection
+//---------------------------
+    switch ($reportType) {
+        case 'FULL_TEXT_PARENT':
+            try {
+                $stmt = $pdo->prepare("SELECT *
+                    FROM `grades`
+                    INNER JOIN `subjects`
+                    ON grades.subjectId = subjects.subjectId  
+                    WHERE userId = :userId 
+                    ORDER BY grades.gradeValue DESC");
+
+                /*                 * * bind the paramaters ** */
+                $stmt->bindParam(':userId', $userId);
+                $stmt->execute();
+                $reportArray = $stmt->fetchAll();
+                $reportText = "Witaj, \r\nPoniżej znajduja się oceny, które Twoje dziecko otrzymało w tym roku szkolnym.\r\nOceny uszeregowane są od najwyższej do najniższej.\r\n\r\n";
+                foreach ($reportArray as $i) {
+                    $reportText .= 'Data: '.$i['gradeDate']."\r\n";
+                    $reportText .= 'Ocena: ' . $i['gradeValue']."\r\n";
+                    $reportText .= 'Waga: ' . $i['gradeWeight']."\r\n";
+                    $reportText .= 'Przedmiot: ' . $i['subjectName']."\r\n";
+                    $reportText .= 'Tytuł: ' . $i['gradeAbbrev'] . ' - ' . htmlspecialchars_decode($i['gradeTitle'])."\r\n\r\n";
+
+                }
+                $reportText .= "Z poważaniem,\r\nDziennikLogin";
+                return $reportText;
+            } catch (PDOException $e) {
+                return
+                        $e->getMessage();
             }
-			$returnedMessage .= "Z pozdrowieniami, \r\n DziennikLogin";
-			return $returnedMessage;
-			break;
-		case 'DAILY_SUBJECT_NEW_TEXT'://All subjects where you got new grades
-			//Witaj,
-			//W dniu wczorajszym otrzymałeś następujące oceny.
-			//foreach przedmiot: ocena1(opis), ocena2(opis), średnia
-			//Z pozdrowienaimi,
-			//DziennikLogin
-			break;
-		case 'FULL_SPREADSHEET'://All subjects - but in excel?
-			//Witaj,
-			//W dniu wczorajszym otrzymałeś następujące oceny.
-			//foreach przedmiot: ocena1(opis), ocena2(opis), średnia
-			//Z pozdrowienaimi,
-			//DziennikLogin
-			break;
-	}
-	
-	
+    }
 }
-
-
 ?>
