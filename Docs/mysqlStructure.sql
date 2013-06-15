@@ -15,8 +15,9 @@ CREATE TABLE IF NOT EXISTS `grades` (
   `gradeTrimester` tinyint(1) NOT NULL,
   `gradeDownloadDate` datetime NOT NULL,
   `gradeShown` tinyint(1) NOT NULL,
+  UNIQUE KEY `uniqueFingerprint` (`userId`,`subjectId`,`gradeValue`,`gradeWeight`,`gradeTitle`,`gradeGroup`,`gradeAbbrev`,`gradeTrimester`),
   KEY `userId` (`userId`)
-) ENGINE=MRG_MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- 
 -- Structure for table `subjects`
@@ -26,8 +27,9 @@ DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE IF NOT EXISTS `subjects` (
   `subjectId` int(11) NOT NULL AUTO_INCREMENT,
   `subjectName` varchar(30) NOT NULL,
-  PRIMARY KEY (`subjectId`)
-) ENGINE=MRG_MyISAM DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`subjectId`),
+  UNIQUE KEY `subjectName` (`subjectName`)
+) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 -- 
 -- Structure for table `users`
@@ -41,6 +43,4 @@ CREATE TABLE IF NOT EXISTS `users` (
   `registerUsername` varchar(100) NOT NULL,
   `registerPassword` varchar(100) NOT NULL,
   UNIQUE KEY `userId` (`userId`)
-) ENGINE=MRG_MyISAM DEFAULT CHARSET=utf8;
-
-
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
