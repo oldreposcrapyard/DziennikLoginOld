@@ -26,10 +26,9 @@ try {
 } catch (PDOException $e) {
     echo $e->getMessage();
 }
-
 foreach ($usersArray as $i) {
     $report = generateReport($i['userId'], 'FULL_TEXT_PARENT', $pdo);
-    sendEmailWithGrades('marcin.safmb@gmail.com', $report,FALSE,'');//Get the email from database
+    sendEmailWithGrades($CONF['smtpUsername'],$CONF['smtpPassword'],'marcin.safmb@gmail.com', $report,FALSE,'');//Get the email from database
     echo 'SUCCESS';
 }
 ?>
