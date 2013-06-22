@@ -22,28 +22,6 @@
             .container-narrow > hr {
                 margin: 30px 0;
             }
-
-            /* Main marketing message and sign up button */
-            .jumbotron {
-                margin: 60px 0;
-                text-align: center;
-            }
-            .jumbotron h1 {
-                font-size: 72px;
-                line-height: 1;
-            }
-            .jumbotron .btn {
-                font-size: 21px;
-                padding: 14px 24px;
-            }
-
-            /* Supporting marketing content */
-            .marketing {
-                margin: 60px 0;
-            }
-            .marketing p + h4 {
-                margin-top: 28px;
-            }
         </style>
         <link href="lib/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
     </head>
