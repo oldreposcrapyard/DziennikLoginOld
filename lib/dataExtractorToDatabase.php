@@ -17,6 +17,7 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
         ));
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->beginTransaction();
     } catch (PDOException $e) {
         return 'Błąd bazy danych:' . $e->getMessage();
     }
@@ -30,9 +31,7 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
     $rowsOdd = $html->find('table', 4)->find('.data_odd');
     $countOdd = count($rowsOdd);
     $subjectsCount = $countOdd + $countEven; //18 for me
-    $gradeTrimester = filter_var($html->find('b', 0)->plaintext, FILTER_SANITIZE_NUMBER_INT);
-//to fill in!
-    $subjectId = '1';
+    $gradeTrimester = filter_var($html->find('b', 0)->plaintext, FILTER_SANITIZE_NUMBER_INT);;
 
 //Here We Go!
     $i = 0;
@@ -110,7 +109,7 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
 
                     /*                     * * bind the paramaters ** */
                     $stmt->bindParam(':userId', $userId);
-                    $stmt->bindParam(':subjectId', $subjectId); //CHANGE!!!
+                    $stmt->bindParam(':subjectId', $subjectId);
                     $stmt->bindParam(':gradeValue', $gradeValue);
                     $stmt->bindParam(':gradeWeight', $gradeWeight);
                     $stmt->bindParam(':gradeGroup', $gradeGroup);
@@ -118,7 +117,7 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
                     $stmt->bindParam(':gradeDate', $gradeDate);
                     $stmt->bindParam(':gradeAbbrev', $gradeAbbrev);
                     $stmt->bindParam(':gradeTrimester', $gradeTrimester);
-                    $stmt->bindParam(':gradeShown', $gradeShown = 0); //WE HAVENT SHOWN THE GRADE YET!
+                    $stmt->bindParam(':gradeShown', $gradeShown = 0); //We haven't shown the grade yet
                     $stmt->execute();
                 } catch (PDOException $e) {
                     if ($e->errorInfo[1] == 1062) {
@@ -134,6 +133,15 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
         }
         $x = 2; //cell offset, 0 is subject name, 1 is average
     }
+    //commit to database
+    try {
+            $pdo->commit();
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        return $e->getMessage();
+    }
+
+
 //Clean up after ourselves ;)
     $html->clear();
     unset($html);
