@@ -7,8 +7,6 @@
 //include library
 require 'simple_html_dom.php';
 
-//require '../config.local.php';
-
 function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db_username, $db_password) {
 //$startTime = microtime(TRUE);
 //---------------------------
@@ -22,7 +20,6 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
     } catch (PDOException $e) {
         return 'Błąd bazy danych:' . $e->getMessage();
     }
-
 
 //PARSING HTML:
 //Lets get something to eat!
@@ -52,7 +49,7 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
             $subjectId = $pdo->lastInsertId('subjectId');
         } catch (PDOException $e) {
             if ($e->errorInfo[1] == 1062) {
-                // duplicate entry, do something else
+                // duplicate entry, fetch the subject id
                 $queryHandleSelect = $pdo->prepare('SELECT subjectId FROM subjects WHERE subjectName = :subjectName');
                 $queryHandleSelect->bindParam(':subjectName', $subjectName);
                 $queryHandleSelect->execute();
@@ -141,17 +138,13 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
     $html->clear();
     unset($html);
 
-//TIME
-//$endTime = microtime(true);
-//dividing with 60 will give the execution time in minutes other wise seconds
-//$getExecutionTime = ($endTime - $startTime);
 //Close database connention
     try {
         $pdo = null;
     } catch (PDOException $e) {
-        echo $e->getMessage();
+        return $e->getMessage();
     }
-//Return output xml
+//Return output
     return 'Success!';
 }
 
