@@ -89,9 +89,11 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
             if (!empty($gradeCell) && $gradeValueHasNumbers) {
                 $onmouseover = $html->find('table', 4)->find('tr', $i)->find('td', $x)->onmouseover;
                 $mouseDom = str_get_html($onmouseover);
-                //$gradeDate = ; //date of grade, needs to be converted
-                $gradeDate=date('Y-m-d',strtotime($mouseDom->find('td', '1')->plaintext));
-                $gradeTitle = $mouseDom->find('i', 1)->plaintext; //title of grade
+                $gradeDate = date('Y-m-d', strtotime($mouseDom->find('td', '1')->plaintext));
+                @$gradeTitle = $mouseDom->find('i', '1')->plaintext;
+                if (is_null($gradeTitle)) { //title of grade
+                    $gradeTitle = 'BRAK'; //dirty hack around those lazy teachers that don't set the title
+                }
                 $gradeGroup = $mouseDom->find('p', '1')->plaintext; //group of grade
                 $gradeWeight = trim($mouseDom->find('td', '3')->plaintext); //weight of grade
                 $mouseDom->clear();

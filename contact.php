@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Le styles -->
-        <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <style type="text/css">
             body {
                 padding-top: 20px;
@@ -27,7 +27,6 @@
     </head>
 
     <body>
-        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
         <div class="container-narrow">
             <div class="masthead">
                 <ul class="nav nav-pills pull-right">
@@ -37,8 +36,10 @@
                 </ul>
                 <h3 class="muted">DziennikLogin</h3>
             </div>
-            <form class="well span8">
-                <div class="row">
+            <hr>
+
+                        <form class="well span8">
+                    <div class="controls controls-row">
                     <div class="span3">
                         <label>Imię</label>
                         <input type="text" class="span3" placeholder="Twoje imię">
@@ -62,7 +63,7 @@
                     <button type="submit" class="btn btn-primary pull-right">Wyślij</button>
                 </div>
             </form>
-
+            
             <hr>
 
             <div class="footer">

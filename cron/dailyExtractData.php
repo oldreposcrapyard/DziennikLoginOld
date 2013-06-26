@@ -26,9 +26,18 @@ try {
     echo $e->getMessage();
 }
 
-foreach ($usersArray as $i) {
-    $dataDownloaded = downloadData($i['registerUsername'], $i['registerPassword']);
-    extractDataToDatabase($i['userId'], $dataDownloaded, $db_host, $db_name, $db_username, $db_password);
-}
+$keyContents = file_get_contents('../userPanel/private.key');
+if (!$privateKey = openssl_pkey_get_private($keyContents))
+    die('Private Key failed');
 
+
+foreach ($usersArray as $i) {
+    $registerPassword = '';
+    if (!openssl_private_decrypt($i['registerPassword'], $registerPassword, $privateKey))
+        die('Failed to decrypt data');
+    $dataDownloaded = downloadData($i['registerUsername'], $registerPassword);
+    extractDataToDatabase($i['userId'], $dataDownloaded, $db_host, $db_name, $db_username, $db_password);
+    unset($registerPassword);
+}
+openssl_free_key($privateKey);
 ?>

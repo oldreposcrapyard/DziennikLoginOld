@@ -7,7 +7,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Le styles -->
-        <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <style type="text/css">
             body {
                 padding-top: 20px;
@@ -52,7 +52,6 @@
     </head>
 
     <body>
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
         <div class="container-narrow">
 
             <div class="masthead">
@@ -69,7 +68,7 @@
             <div class="jumbotron">
                 <h1>Nie masz czasu na sprawdzanie ocen?</h1>
                 <p class="lead">DziennikLogin ułatwi Tobie życie. Nasz system wyśle do Ciebie oceny, które zostały uzyskane w danym okresie czasu. Rozpocznij już teraz.</p>
-                <a class="btn btn-large btn-success" href="#">Załóż konto</a> <small class="or">lub</small>
+                <a class="btn btn-large btn-success" href="userPanel/userRegister.php">Załóż konto</a> <small class="or">lub</small>
                 <a class="btn btn-large btn-primary" href="#">Zaloguj się</a>
             </div>
 
