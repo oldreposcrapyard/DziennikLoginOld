@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dziennik>
+   <przedmiot>
+      <nazwa>biologia</nazwa>
+      <srednia>6,00</srednia>
+      <ocena>
+         <wartosc>6</wartosc>
+         <waga>1</waga>
+         <data>19.04.2013</data>
+         <skrot>KK</skrot>
+         <opis>Ssaki</opis>
+      </ocena>
+   </przedmiot>
+   <przedmiot>
+      <nazwa>chemia</nazwa>
+      <srednia>3,50</srednia>
+      <ocena>
+         <wartosc>6</wartosc>
+         <waga>1</waga>
+         <data>19.04.2013</data>
+         <skrot>KK</skrot>
+         <opis>Węglowodory</opis>
+      </ocena>
+      <ocena>
+         <wartosc>1</wartosc>
+         <waga>1</waga>
+         <data>19.04.2013</data>
+         <skrot>PK</skrot>
+         <opis>Kwasy</opis>
+      </ocena>
+   </przedmiot>
+</dziennik>
