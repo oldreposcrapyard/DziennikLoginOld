@@ -21,141 +21,136 @@ function extractDataToDatabase($userId, $downloadedData, $db_host, $db_name, $db
     } catch (PDOException $e) {
         return 'Błąd bazy danych:' . $e->getMessage();
     }
-
-//PARSING HTML:
-//Lets get something to eat!
+    //Lets get something to eat!
     $html = str_get_html($downloadedData);
-//Count the subjects:
-    $rowsEven = $html->find('table', 4)->find('.data_even');
-    $countEven = count($rowsEven);
-    $rowsOdd = $html->find('table', 4)->find('.data_odd');
-    $countOdd = count($rowsOdd);
-    $subjectsCount = $countOdd + $countEven; //18 for me
-    $gradeTrimester = filter_var($html->find('b', 0)->plaintext, FILTER_SANITIZE_NUMBER_INT);;
+    $table = $html->find('table', 4);
+    $cells = $table->find('tr td');
+    //trimester:
+    $gradeTrimester = filter_var($html->find('b', 0)->plaintext, FILTER_SANITIZE_NUMBER_INT);
 
-//Here We Go!
-    $i = 0;
-    $x = 2; //cell offset, 0 is subject name, 1 is average
-    while ($i < $subjectsCount) {
-        $i++; //(0 is title row)
-        //Hey, the subjectname:
-        $subjectName = trim(str_replace('&nbsp;', '', $html->find('table', 4)->find('tr', $i)->find('td', 0)->plaintext));
-        try {
-            //put into database
-            $queryHandleInsert = $pdo->prepare('INSERT INTO subjects SET subjectName=:subjectName');
-            $queryHandleInsert->bindParam(':subjectName', $subjectName);
-            $queryHandleInsert->execute();
-            $subjectId = $pdo->lastInsertId('subjectId');
-        } catch (PDOException $e) {
-            if ($e->errorInfo[1] == 1062) {
-                // duplicate entry, fetch the subject id
-                $queryHandleSelect = $pdo->prepare('SELECT subjectId FROM subjects WHERE subjectName = :subjectName');
-                $queryHandleSelect->bindParam(':subjectName', $subjectName);
-                $queryHandleSelect->execute();
-                $subjectIdQuery = $queryHandleSelect->fetch(PDO::FETCH_ASSOC);
-                $subjectId = $subjectIdQuery['subjectId'];
-            } else {
-                // an error other than duplicate entry occurred
-                return $e->getMessage();
-            }
+    //2. Powinieneś najpierw spróbować pobrać za jednym zamachem wszystkie ID przedmiotów na podstawie ich nazw.
+    //Dopiero w następnym kroku utworzyć nowe rekordy w bazie dla nieistniejących jeszcze przedmiotów.
+    //get all subjects from db
+    try {
+        $queryHandleSelect = $pdo->prepare('SELECT subjectId,subjectName FROM subjects');
+        $queryHandleSelect->execute();
+        $subjectIds = $queryHandleSelect->fetchAll(PDO::FETCH_ASSOC);
+        if (!is_array($subjectIds)) {
+            $subjectIds = array();
         }
-        // The average ones get to eat too:
-        if (!empty($html->find('table', 4)->find('tr', $i)->find('.cell-style-srednia', 0)->plaintext)) {
-            $subjectAverage = trim($html->find('table', 4)->find('tr', $i)->find('.cell-style-srednia', 0)->plaintext);
-        } else {
-            //No food for ya!
-            $subjectAverage = 'BRAK';
-        }
-        //Grades
-        //Count the cells in the row:
-        $gradesCount = count($html->find('table', 4)->find('tr', $i)->find('td'));
-        //process each cell(grade)
-        while ($x < $gradesCount) {
-            $gradeCell = $html->find('table', 4)->find('tr', $i)->find('td', $x)->plaintext; //get the cell value
-            $gradeAbbrev = strtoupper(trim(substr($gradeCell, 0, 3))); //grade abbreviation (the text from cell)
-            $gradeValue = filter_var($gradeCell, FILTER_SANITIZE_NUMBER_INT); //grade numerical value (the number from cell)
-            //See if it has +, add a 0,5 then
-            $gradeValueHasPlus = strpos($gradeCell, '+');
-            if ($gradeValueHasPlus !== FALSE) {
-                $gradeValue = $gradeValue[0] + 0.5;
-            }
-            //Check if it contains numbers
-            if (strcspn($gradeCell, '0123456789') != strlen($gradeCell)) {
-                $gradeValueHasNumbers = TRUE;
-            } else {
-                $gradeValueHasNumbers = FALSE;
-            }
-
-            if (!empty($gradeCell) && $gradeValueHasNumbers) {
-                $onmouseover = $html->find('table', 4)->find('tr', $i)->find('td', $x)->onmouseover;
-                $mouseDom = str_get_html($onmouseover);
-                $gradeDate = date('Y-m-d', strtotime($mouseDom->find('td', '1')->plaintext));
-                @$gradeTitle = $mouseDom->find('i', '1')->plaintext;
-                if (is_null($gradeTitle)) { //title of grade
-                    $gradeTitle = 'BRAK'; //dirty hack around those lazy teachers that don't set the title
-                }
-                $gradeGroup = $mouseDom->find('p', '1')->plaintext; //group of grade
-                $gradeWeight = trim($mouseDom->find('td', '3')->plaintext); //weight of grade
-                $mouseDom->clear();
-                unset($mouseDom); //free up resources
-                if (strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)) {//check if its really number, if not, then its 1
-                    $gradeWeight = '1';
-                } else {
-                    $gradeWeight = round($gradeWeight);
-                }
-                //write data to database!
-                /* * * prepare the SQL statement * * */
-                try {
-                    $stmt = $pdo->prepare("INSERT INTO `grades` (`userId`, `subjectId`,`gradeValue`, `gradeWeight`, `gradeGroup`, `gradeTitle`, `gradeDate`, `gradeAbbrev`, `gradeTrimester`, `gradeDownloadDate`, `gradeShown`) VALUES 
+    } catch (PDOException $e) {
+        return $e->getMessage();
+    }
+    //Convert array from database
+    $subjectIdsNew = array();
+    foreach ($subjectIds as $val) {
+        $subjectIdsNew[$val['subjectId']] = $val['subjectName'];
+    }
+    //1. Zapytania możesz przygotować ($pdo->prepare) raz, przed pętlą, i używać ich później wielokrotnie w pętli.
+    /*     * * prepare the SQL statement * * */
+    $stmt = $pdo->prepare("INSERT INTO `grades` (`userId`, `subjectId`,`gradeValue`, `gradeWeight`, `gradeGroup`, `gradeTitle`, `gradeDate`, `gradeAbbrev`, `gradeTrimester`, `gradeDownloadDate`, `gradeShown`) VALUES 
 	                                                (:userId, :subjectId, :gradeValue, :gradeWeight, :gradeGroup, :gradeTitle, :gradeDate, :gradeAbbrev, :gradeTrimester, CURRENT_TIMESTAMP, :gradeShown);");
 
-                    /*                     * * bind the paramaters ** */
-                    $stmt->bindParam(':userId', $userId);
-                    $stmt->bindParam(':subjectId', $subjectId);
-                    $stmt->bindParam(':gradeValue', $gradeValue);
-                    $stmt->bindParam(':gradeWeight', $gradeWeight);
-                    $stmt->bindParam(':gradeGroup', $gradeGroup);
-                    $stmt->bindParam(':gradeTitle', $gradeTitle);
-                    $stmt->bindParam(':gradeDate', $gradeDate);
-                    $stmt->bindParam(':gradeAbbrev', $gradeAbbrev);
-                    $stmt->bindParam(':gradeTrimester', $gradeTrimester);
-                    $stmt->bindParam(':gradeShown', $gradeShown = 0); //We haven't shown the grade yet
-                    $stmt->execute();
+    $subjectId = '';
+    //the processing itself
+    foreach ($cells as $cell) {
+        //switch depending on the type of the cell: subjectname, average or grade cell
+        //in that order, or else average is detected as grade
+        if (!isset($cell->class) && !isset($cell->onmouseover) && $cell->plaintext != '') {//subjectname: has text inside and no attributes
+            //echo 'subjectname:' . ' ' . $cell->plaintext;
+            $subjectName = trim(str_replace('&nbsp;', '', $cell->plaintext));
+            //search for subject
+            //Check if subject exists in $subjectIdsNew.
+            $subjectSearch = in_array($subjectName, $subjectIdsNew);
+            //}
+            if ($subjectSearch === FALSE) { //No subject found, must insert
+                try {
+                    $queryHandleInsert = $pdo->prepare('INSERT INTO subjects SET subjectName=:subjectName');
+                    $queryHandleInsert->bindParam(':subjectName', $subjectName);
+                    $queryHandleInsert->execute();
+                    //then, set the subjectId according to the subject processed now
+                    $subjectId = $pdo->lastInsertId('subjectId');
+                    // and  add to the array
+                    $subjectIdsNew[$subjectId] = $subjectName;
                 } catch (PDOException $e) {
                     if ($e->errorInfo[1] == 1062) {
                         // duplicate entry, do nothing
                     } else {
-                        // an error other than duplicate entry occurred
-                        return
-                        $e->getMessage();
+                        echo $e->getMessage();
                     }
                 }
+            } else {
+                $subjectFoundSearch = array_search($subjectName, $subjectIdsNew);
+                $subjectId = $subjectFoundSearch;
             }
-            $x++;
+        } elseif ($cell->class == 'cell-style-srednia') {//average: class: cell-style-srednia
+            //echo'srednia:' . ' ' . $cell->plaintext;
+            //do nothing, we dont yet have an use for it
+        } elseif (strcspn($cell->plaintext, '0123456789') != strlen($cell->plaintext)) {//grade: has number inside and isnt empty
+            //get all the needed values
+            $gradeAbbrev = strtoupper(trim(substr($cell->plaintext, 0, 3))); //grade abbreviation (the text from cell)
+            $gradeValue = filter_var($cell->plaintext, FILTER_SANITIZE_NUMBER_INT); //grade numerical value (the number from cell)
+            //See if it has +, add a 0,5 then
+            if (strpos($cell->plaintext, '+') !== FALSE) {
+                $gradeValue = $gradeValue[0] + 0.5;
+            }
+            //now we need to dive into the onmouseover attribute
+            $mouseDom = str_get_html($cell->onmouseover);
+            $gradeDate = date('Y-m-d', strtotime($mouseDom->find('td', '1')->plaintext)); //date of grade
+            @$gradeTitle = $mouseDom->find('i', '1')->plaintext; //title of grade
+            if (is_null($gradeTitle)) {
+                $gradeTitle = 'BRAK'; //dirty hack around those lazy teachers that don't set the title
+            }
+            $gradeGroup = $mouseDom->find('p', '1')->plaintext; //group of grade
+            $gradeWeight = trim($mouseDom->find('td', '3')->plaintext); //weight of grade
+            //free up resources
+            $mouseDom->clear();
+            unset($mouseDom);
+            if (strcspn($gradeWeight, '0123456789') == strlen($gradeWeight)) {//check if gradeWeight is really a number, if not, then its 1
+                $gradeWeight = '1';
+            } else {
+                $gradeWeight = round($gradeWeight);
+            }
+            //insert into database
+            try {
+                /*                 * * bind the paramaters * * */
+                $stmt->bindParam(':userId', $userId);
+                $stmt->bindParam(':subjectId', $subjectId);
+                $stmt->bindParam(':gradeValue', $gradeValue);
+                $stmt->bindParam(':gradeWeight', $gradeWeight);
+                $stmt->bindParam(':gradeGroup', $gradeGroup);
+                $stmt->bindParam(':gradeTitle', $gradeTitle);
+                $stmt->bindParam(':gradeDate', $gradeDate);
+                $stmt->bindParam(':gradeAbbrev', $gradeAbbrev);
+                $stmt->bindParam(':gradeTrimester', $gradeTrimester);
+                $stmt->bindParam(':gradeShown', $gradeShown = 0); //We haven't shown the grade yet
+                $stmt->execute(); //execute
+            } catch (PDOException $e) {
+                if ($e->errorInfo[1] == 1062) {
+                    // duplicate entry, do nothing
+                } else {
+                    echo $e->getMessage();
+                }
+            }
         }
-        $x = 2; //cell offset, 0 is subject name, 1 is average
     }
+
     //commit to database
     try {
-            $pdo->commit();
+        $pdo->commit();
     } catch (PDOException $e) {
         $pdo->rollBack();
         return $e->getMessage();
     }
-
-
-//Clean up after ourselves ;)
+    //Clean up after ourselves ;)
     $html->clear();
     unset($html);
 
-//Close database connention
+    //Close database connention
     try {
         $pdo = null;
     } catch (PDOException $e) {
         return $e->getMessage();
     }
-//Return output
-    return 'Success!';
 }
-
 ?>
