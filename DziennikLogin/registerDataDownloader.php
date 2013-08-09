@@ -95,6 +95,7 @@ class registerDataDownloader {
      * @return true
      */
     private function setCurlProperties() {
+        //Check for cookie file path
         if (!isset($this->cookieFilePath)) {
             throw new \Exception ('Cookie file path not set!');
         } else {
@@ -146,7 +147,7 @@ class registerDataDownloader {
 
     /**
      * This method gets the register grade page after login
-     * @return true|false
+     * @return true
      */
     private function getGradePageContent() {
         //Go to page with grades
@@ -160,12 +161,13 @@ class registerDataDownloader {
             $this->registerGradePageContent = $this->queryGetGradePageResult;
             return TRUE;
         } else {
-            return FALSE;
+            throw new \Exception ('Could not download the grade page!');
         }
     }
 
     /**
      * This method generates the post data from the user username and password
+     * @throws \Exception
      * @return void
      */
     private function generatePostData() {
@@ -215,14 +217,8 @@ class registerDataDownloader {
      * @return true|false
      */
     private function downloadData() {
-        //Check for cookie file path
-        if ($this->cookieFilePath == '') {
-            return FALSE;
-        }
         //Set the curl properties
-        if (!$this->setCurlProperties()) {
-            return FALSE;
-        }
+        $this->setCurlProperties();
         //Generate the POST data
         $this->generatePostData();
         //Login to the register
