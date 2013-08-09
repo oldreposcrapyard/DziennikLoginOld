@@ -4,7 +4,7 @@ namespace DziennikLogin;
 
 /**
  * Download the data from register
- * 
+ *
  * This class connects to the register using cURL and gets the source
  * of the grade page from it.
  *
@@ -14,17 +14,18 @@ namespace DziennikLogin;
  * @return string|false
  * @todo Add a destructor that kills the curl object
  */
-class registerDataDownloader {
+class registerDataDownloader
+{
 
     /**
      * The username of user used to access the register to download data
-     * @var string 
+     * @var string
      */
     private $registerUserUsername = null;
 
     /**
      * The password of user used to access the register to download data
-     * @var string 
+     * @var string
      */
     private $registerUserPassword = null;
 
@@ -36,19 +37,19 @@ class registerDataDownloader {
 
     /**
      * The path where the temporary cookie file is located
-     * @var string 
+     * @var string
      */
     private $cookieFilePath = '';
 
     /**
      * The POST data used to login to register
-     * @var string 
+     * @var string
      */
     private $postData = '';
 
     /**
      * The contents of grade page
-     * @var string 
+     * @var string
      */
     private $registerGradePageContent = '';
 
@@ -60,11 +61,16 @@ class registerDataDownloader {
 
 
     /**
-     * In constructor we only create the cURL object and 
+     * In constructor we only create the cURL object and
      * set the cookie filepath which can be changed later.
      */
-    public function __construct($cookiePath = '') {
+    public function __construct($cookiePath = '')
+    {
+        //Create cURL object
         $this->createCurlObject();
+        //Set the curl properties
+        $this->setCurlProperties();
+        //If the cookie path was passed to constructor, write it
         if ($cookiePath != '') {
             $this->setCookieFilePath($cookiePath);
         }
@@ -75,7 +81,8 @@ class registerDataDownloader {
      * @throws \Exception
      * @return void
      */
-    private function createCurlObject() {
+    private function createCurlObject()
+    {
         //Create a curl object
         if (!$this->curlHandle = curl_init()) {
             throw new \Exception('Could not create cURL object!');
@@ -94,7 +101,8 @@ class registerDataDownloader {
      * @throws \Exception
      * @return true
      */
-    private function setCurlProperties() {
+    private function setCurlProperties()
+    {
         //Check for cookie file path
         if (!isset($this->cookieFilePath)) {
             throw new \Exception ('Cookie file path not set!');
@@ -110,10 +118,6 @@ class registerDataDownloader {
             curl_setopt($this->curlHandle, CURLOPT_FOLLOWLOCATION, 1);
             //Set timeout
             curl_setopt($this->curlHandle, CURLOPT_TIMEOUT, 60);
-            //Set the cookie storing files
-            //Cookie files are necessary since we are logging and session data needs to be saved
-            curl_setopt($this->curlHandle, CURLOPT_COOKIEJAR, $this->cookieFilePath);
-            curl_setopt($this->curlHandle, CURLOPT_COOKIEFILE, $this->cookieFilePath);
         }
     }
 
@@ -121,7 +125,8 @@ class registerDataDownloader {
      * This method logs us in to the register used supplied login data
      * @return void
      */
-    private function doRegisterLogin() {
+    private function doRegisterLogin()
+    {
         //Set the URL
         curl_setopt($this->curlHandle, CURLOPT_URL, 'https://92.55.225.11/dbviewer/login.php');
         //Define that this is a POST query
@@ -136,7 +141,8 @@ class registerDataDownloader {
      * This method logs out the currently logged in user
      * @return VOID
      */
-    private function doRegisterLogout() {
+    private function doRegisterLogout()
+    {
         //Set the URL
         curl_setopt($this->curlHandle, CURLOPT_URL, 'https://92.55.225.11/dbviewer/logout.php?con=e-dziennik-szkola01.con&location=..');
         //Execute
@@ -148,7 +154,8 @@ class registerDataDownloader {
      * @throws \Exception
      * @return VOID
      */
-    private function getGradePageContent() {
+    private function getGradePageContent()
+    {
         //Go to page with grades
         curl_setopt($this->curlHandle, CURLOPT_URL, 'https://92.55.225.11/dbviewer/view_data.php?view_name=uczen_uczen_arkusz_ocen_semestr.view');
         //Set referrer
@@ -168,7 +175,8 @@ class registerDataDownloader {
      * @throws \Exception
      * @return void
      */
-    private function generatePostData() {
+    private function generatePostData()
+    {
         //Check for the necessary login data
         if ($this->registerUserUsername == '' || $this->registerUserUsername == '') {
             throw new \Exception ('No username or password set!');
@@ -182,7 +190,8 @@ class registerDataDownloader {
      * This method sets the username used to access the register
      * @param string $registerUsername The user username
      */
-    public function setRegisterUsername($registerUsername) {
+    public function setRegisterUsername($registerUsername)
+    {
         //Make sure the variable is empty
         $this->registerUserUsername = null;
         //Then fill it with the username
@@ -193,7 +202,8 @@ class registerDataDownloader {
      * This method sets the password used to access the register
      * @param string $registerPassword The user password
      */
-    public function setRegisterPassword($registerPassword) {
+    public function setRegisterPassword($registerPassword)
+    {
         //Make sure the variable is empty
         $this->registerUserPassword = null;
         //Then fill it with the password
@@ -201,22 +211,26 @@ class registerDataDownloader {
     }
 
     /**
-     * This method sets the path to the cookie file
+     * This method sets the path to the cookie file and then updates the responsible cURL properties
      * @param string $cookiePath The path to cookie file
      */
-    public function setCookieFilePath($cookiePath) {
+    public function setCookieFilePath($cookiePath)
+    {
         //Set the path of the cookie file as supplied
         $this->cookieFilePath = $cookiePath;
+        //Set the cookie storing files
+        //Cookie files are necessary since we are logging and session data needs to be saved
+        curl_setopt($this->curlHandle, CURLOPT_COOKIEJAR, $this->cookieFilePath);
+        curl_setopt($this->curlHandle, CURLOPT_COOKIEFILE, $this->cookieFilePath);
+
     }
 
     /**
-     * This method actually downloads the data and writes it into variable
-     * Returns false on failure, true otherwise
-     * @return true|false
+     * The whole process takes place here
+     * @return void
      */
-    private function downloadData() {
-        //Set the curl properties
-        $this->setCurlProperties();
+    private function downloadData()
+    {
         //Generate the POST data
         $this->generatePostData();
         //Login to the register
@@ -231,9 +245,17 @@ class registerDataDownloader {
      * This method returns the downloaded data
      * @return string
      */
-    public function getDownloadedData() {
+    public function executeDownload()
+    {
         $this->downloadData();
         return $this->registerGradePageContent;
+    }
+
+    /**
+     * In the destructor the cURL object is destroyed
+     */
+    public function __destruct(){
+        curl_close($this->curlHandle);
     }
 
 }
