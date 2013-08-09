@@ -72,14 +72,12 @@ class registerDataDownloader {
 
     /**
      * This method creates the cURL object
-     * @return true|false
+     * @return void
      */
     private function createCurlObject() {
         //Create a curl object
         if (!$this->curlHandle = curl_init()) {
-            return FALSE;
-        } else {
-            return TRUE;
+            throw new \Exception('Could not create cURL object!');
         }
     }
 
@@ -184,8 +182,8 @@ class registerDataDownloader {
     }
 
     /**
-     * This method sets the passsword used to access the register
-     * @param string $registerPassword
+     * This method sets the password used to access the register
+     * @param string $registerPassword The user password
      */
     public function setRegisterPassword($registerPassword) {
         //Make sure the variable is empty
