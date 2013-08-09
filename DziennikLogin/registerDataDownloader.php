@@ -12,7 +12,6 @@ namespace DziennikLogin;
  * @package DziennikLogin
  * @version 0.1
  * @return string|false
- * @todo Add a destructor that kills the curl object
  */
 class registerDataDownloader
 {
