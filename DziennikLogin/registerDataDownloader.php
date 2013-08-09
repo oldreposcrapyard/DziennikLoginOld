@@ -114,12 +114,11 @@ class registerDataDownloader {
             //Cookie files are necessary since we are logging and session data needs to be saved
             curl_setopt($this->curlHandle, CURLOPT_COOKIEJAR, $this->cookieFilePath);
             curl_setopt($this->curlHandle, CURLOPT_COOKIEFILE, $this->cookieFilePath);
-            return TRUE;
         }
     }
 
     /**
-     * This method logins us to the register used supplied login data
+     * This method logs us in to the register used supplied login data
      * @return void
      */
     private function doRegisterLogin() {
@@ -135,19 +134,19 @@ class registerDataDownloader {
 
     /**
      * This method logs out the currently logged in user
-     * @return true|false
+     * @return VOID
      */
     private function doRegisterLogout() {
         //Set the URL
         curl_setopt($this->curlHandle, CURLOPT_URL, 'https://92.55.225.11/dbviewer/logout.php?con=e-dziennik-szkola01.con&location=..');
         //Execute
         curl_exec($this->curlHandle);
-        return TRUE;
     }
 
     /**
      * This method gets the register grade page after login
-     * @return true
+     * @throws \Exception
+     * @return VOID
      */
     private function getGradePageContent() {
         //Go to page with grades
@@ -159,7 +158,6 @@ class registerDataDownloader {
         //Write the grade page content and return response
         if ($this->queryGetGradePageResult != '') {
             $this->registerGradePageContent = $this->queryGetGradePageResult;
-            return TRUE;
         } else {
             throw new \Exception ('Could not download the grade page!');
         }
@@ -224,29 +222,18 @@ class registerDataDownloader {
         //Login to the register
         $this->doRegisterLogin();
         //Get content of the grade page
-        if (!$this->getGradePageContent()) {
-            return FALSE;
-        }
-        //logout from the register so that the next user could be processed
-        if (!$this->doRegisterLogout()) {
-            return FALSE;
-        }
-        return TRUE;
+        $this->getGradePageContent();
+        //Logout from the register so that the next user could be processed
+        $this->doRegisterLogout();
     }
 
     /**
      * This method returns the downloaded data
-     * @return string|false
+     * @return string
      */
     public function getDownloadedData() {
-        if (!$this->downloadData()) {
-            return FALSE;
-        }
-        if ($this->registerGradePageContent !== '') {
-            return $this->registerGradePageContent;
-        } else {
-            return FALSE;
-        }
+        $this->downloadData();
+        return $this->registerGradePageContent;
     }
 
 }
