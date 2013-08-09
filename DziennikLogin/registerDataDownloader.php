@@ -58,20 +58,13 @@ class registerDataDownloader {
      */
     private $queryGetGradePageResult = '';
 
-    /**
-     * This array contains any errors that occur
-     * @var array
-     */
-    private $errors = array();
 
     /**
      * In constructor we only create the cURL object and 
      * set the cookie filepath which can be changed later.
      */
     public function __construct($cookiePath = '') {
-        if ($this->createCurlObject() === FALSE) {
-            $this->errors[] .= 'Could not create cURL object';
-        }
+        $this->createCurlObject();
         if ($cookiePath != '') {
             $this->setCookieFilePath($cookiePath);
         }
@@ -88,14 +81,13 @@ class registerDataDownloader {
         } else {
             return TRUE;
         }
-        //return $curlHandle;
     }
 
     /**
      * This method sets the properties necessary to connect to register.
      * 
      * Those properties include, but are not limited to:
-     * -useragent
+     * -user agent
      * -ssl settings
      * -return transfer settings
      * -timeout
@@ -127,7 +119,7 @@ class registerDataDownloader {
 
     /**
      * This method logins us to the register used supplied login data
-     * @return type Description
+     * @return void
      */
     private function doRegisterLogin() {
         //Set the URL
@@ -254,18 +246,6 @@ class registerDataDownloader {
         }
         if ($this->registerGradePageContent !== '') {
             return $this->registerGradePageContent;
-        } else {
-            return FALSE;
-        }
-    }
-
-    /**
-     * This method returns any errors if they occur, false otherwise
-     * @return array|false
-     */
-    public function getErrors() {
-        if (array_key_exists(0, $this->errors)) {
-            return $this->errors;
         } else {
             return FALSE;
         }
