@@ -30,7 +30,7 @@ class registerDataDownloader {
 
     /**
      * The handle to created curl object
-     * @var object 
+     * @var resource
      */
     private $curlHandle = null;
 
@@ -72,6 +72,7 @@ class registerDataDownloader {
 
     /**
      * This method creates the cURL object
+     * @throws \Exception
      * @return void
      */
     private function createCurlObject() {
@@ -83,18 +84,19 @@ class registerDataDownloader {
 
     /**
      * This method sets the properties necessary to connect to register.
-     * 
+     *
      * Those properties include, but are not limited to:
      * -user agent
      * -ssl settings
      * -return transfer settings
      * -timeout
      * Returns true on success, false otherwise
-     * @return true|false
+     * @throws \Exception
+     * @return true
      */
     private function setCurlProperties() {
         if (!isset($this->cookieFilePath)) {
-            return FALSE;
+            throw new \Exception ('Cookie file path not set!');
         } else {
             //Ignore the SSL communication, because the certificate is outdated
             curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -167,7 +169,13 @@ class registerDataDownloader {
      * @return void
      */
     private function generatePostData() {
-        $this->postData = 'user_name=' . $this->registerUserUsername . '&user_passwd=' . $this->registerUserPassword . '&con=e-dziennik-szkola01.con';
+        //Check for the necessary login data
+        if ($this->registerUserUsername == '' || $this->registerUserUsername == '') {
+            throw new \Exception ('No username or password set!');
+        } else {
+            $this->postData = 'user_name=' . $this->registerUserUsername . '&user_passwd=' . $this->registerUserPassword . '&con=e-dziennik-szkola01.con';
+        }
+
     }
 
     /**
@@ -207,10 +215,6 @@ class registerDataDownloader {
      * @return true|false
      */
     private function downloadData() {
-        //Check for the necessary login data
-        if ($this->registerUserUsername == '' || $this->registerUserUsername == '') {
-            return FALSE;
-        }
         //Check for cookie file path
         if ($this->cookieFilePath == '') {
             return FALSE;
