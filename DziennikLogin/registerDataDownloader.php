@@ -12,6 +12,8 @@ namespace DziennikLogin;
  * @package DziennikLogin
  * @version 0.1
  * @return string|false
+ *
+ * 
  */
 class registerDataDownloader
 {
@@ -191,9 +193,7 @@ class registerDataDownloader
      */
     public function setRegisterUsername($registerUsername)
     {
-        //Make sure the variable is empty
-        $this->registerUserUsername = null;
-        //Then fill it with the username
+        //Fill the property with the username
         $this->registerUserUsername = $registerUsername;
     }
 
@@ -203,9 +203,7 @@ class registerDataDownloader
      */
     public function setRegisterPassword($registerPassword)
     {
-        //Make sure the variable is empty
-        $this->registerUserPassword = null;
-        //Then fill it with the password
+        //Fill the property with the password
         $this->registerUserPassword = $registerPassword;
     }
 
