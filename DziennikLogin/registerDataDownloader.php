@@ -40,7 +40,7 @@ class registerDataDownloader
      * The path where the temporary cookie file is located
      * @var string
      */
-    private $cookieFilePath = '';
+    private $cookieFilePath = null;
 
     /**
      * The POST data used to login to register
@@ -104,10 +104,6 @@ class registerDataDownloader
      */
     private function setCurlProperties()
     {
-        //Check for cookie file path
-        if (!isset($this->cookieFilePath)) {
-            throw new \Exception ('Cookie file path not set!');
-        } else {
             //Ignore the SSL communication, because the certificate is outdated
             curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
@@ -119,7 +115,6 @@ class registerDataDownloader
             curl_setopt($this->curlHandle, CURLOPT_FOLLOWLOCATION, 1);
             //Set timeout
             curl_setopt($this->curlHandle, CURLOPT_TIMEOUT, 60);
-        }
     }
 
     /**
@@ -128,6 +123,10 @@ class registerDataDownloader
      */
     private function doRegisterLogin()
     {
+        //Check for cookie file path
+        if (!isset($this->cookieFilePath) || $this->cookieFilePath === '') {
+            throw new \Exception ('Cookie file path not set!');
+        }
         //Set the URL
         curl_setopt($this->curlHandle, CURLOPT_URL, 'https://92.55.225.11/dbviewer/login.php');
         //Define that this is a POST query
