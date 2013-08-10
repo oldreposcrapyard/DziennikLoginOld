@@ -15,7 +15,7 @@ class registerDataDownloaderTest extends \PHPUnit_Framework_TestCase
     public function testSetCurlPropertiesThrowsExceptionWhenNoCookiePathSet()
     {
         $this->dataDownloaderObject->executeDownload();
-        $this->setExpectedException(Exception);
+        $this->assertExpectedException(Exception);
     }
 }
 
