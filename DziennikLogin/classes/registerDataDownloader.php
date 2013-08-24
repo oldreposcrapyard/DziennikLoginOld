@@ -1,6 +1,6 @@
 <?php
 
-namespace DziennikLogin\classes;
+namespace DziennikLogin\classes\registerDataDownloader;
 
 /**
  * Download the data from register
@@ -11,11 +11,11 @@ namespace DziennikLogin\classes;
  * @author Marcin Ławniczak <marcin.safmb@gmail.com>
  * @package DziennikLogin
  * @version 0.1
- * @return string|false
+ * @return string
  *
  * 
  */
-class registerDataDownloader
+final class registerDataDownloader
 {
 
     /**

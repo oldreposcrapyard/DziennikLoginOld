@@ -9,3 +9,9 @@ config.local.php
 # Ignore composer
 composer.phar
 /Meta/nbproject/private/
+# Ignore trash
+/old 
+
+private.key
+public.key
+/DziennikLogin/misc/old/decryptPasswords.php

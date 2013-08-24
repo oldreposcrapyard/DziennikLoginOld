@@ -69,7 +69,7 @@
                 <h1>Nie masz czasu na sprawdzanie ocen?</h1>
                 <p class="lead">DziennikLogin ułatwi Tobie życie. Nasz system wyśle do Ciebie oceny, które zostały uzyskane w danym okresie czasu. Rozpocznij już teraz.</p>
                 <a class="btn btn-large btn-success" href="userPanel/userRegister.php">Załóż konto</a> <small class="or">lub</small>
-                <a class="btn btn-large btn-primary" href="#">Zaloguj się</a>
+                <a class="btn btn-large btn-primary" href="userPanel/userLogin.php">Zaloguj się</a>
             </div>
 
             <hr>
