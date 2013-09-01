@@ -16,6 +16,7 @@ require('DB.php');
 class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportGenerator {
 
     private $dbHandle;
+    private $noRows;
 
     public function __construct($databaseHost, $databaseName, $databaseUsername, $databasePassword) {
         $this->dbHandle = new DB("mysql:host=$databaseHost;dbname=$databaseName;charset=utf8", $databaseUsername, $databasePassword, array(
@@ -49,7 +50,8 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
             $selectQuery->bindParam(':userId', $this->userId);
             $selectQuery->execute();
             if ($selectQuery->rowCount() === 0) {
-                throw new Exception('Za mało ocen!');
+                $this->noRows = 'DAILY';
+                //throw new Exception('Za mało ocen!');
             }
             $this->reportData = $selectQuery->fetchAll();
             //todo Change the gradeShown value in db
@@ -63,7 +65,8 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
             $selectQuery->bindParam(':userId', $this->userId);
             $selectQuery->execute();
             if ($selectQuery->rowCount() === 0) {
-                throw new Exception('Za mało ocen!');
+                $this->noRows = 'FULL';
+                //throw new Exception('Za mało ocen!');
             }
             $this->reportData = $selectQuery->fetchAll();
         } else {
@@ -73,7 +76,11 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
 
     public function generateReport() {
         $this->getDataToReport();
-        if ($this->reportTo == 'PARENT') {
+        if($this->noRows == 'FULL' || $this->noRows == 'DAILY'){
+            $this->reportContent = "Witaj, \r\nDzisiaj nie otrzymano nowych ocen lub w bazie nie znajdują się żadne oceny.\r\n";
+            $this->reportContent .= "Z poważaniem,\r\nDziennikLogin";
+        }
+        elseif ($this->reportTo == 'PARENT'&& !isset($this->noRows)) {
 
             $this->reportContent = "Witaj, \r\nPoniżej znajduja się oceny, które otrzymało Twoje dziecko.\r\nOceny uszeregowane są od najwyższej do najniższej.\r\n\r\n";
             foreach ($this->reportData as $i) {
@@ -84,7 +91,7 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
                 $this->reportContent .= 'Tytuł: ' . $i['gradeAbbrev'] . ' - ' . htmlspecialchars_decode($i['gradeTitle']) . "\r\n\r\n";
             }
             $this->reportContent .= "Z poważaniem,\r\nDziennikLogin";
-        } elseif ($this->reportTo == 'CHILD') {
+        } elseif ($this->reportTo == 'CHILD' && !isset($this->noRows)) {
             $this->reportContent = "Witaj, \r\nPoniżej znajduja się twoje oceny.\r\nOceny uszeregowane są od najwyższej do najniższej.\r\n\r\n";
             foreach ($this->reportData as $i) {
                 $this->reportContent .= 'Data: ' . $i['gradeDate'] . "\r\n";
