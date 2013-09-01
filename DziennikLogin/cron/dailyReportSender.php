@@ -1,8 +1,8 @@
 <?php
 
-require '../classes/textReportGenerator.php';
-require '../config.local.php';
-require '../hooks/hookEmail.php';
+require dirname(__FILE__).'/../classes/textReportGenerator.php';
+require dirname(__FILE__).'/../config.local.php';
+require dirname(__FILE__).'/../hooks/hookEmail.php';
 
 $db_host = $CONF['databaseHost'];
 $db_name = $CONF['databaseName'];
