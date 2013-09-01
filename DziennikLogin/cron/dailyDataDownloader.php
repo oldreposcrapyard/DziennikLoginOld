@@ -34,12 +34,12 @@ try {
     echo $e->getMessage();
 }
 
-$keyContents = file_get_contents('private.key');
+$keyContents = file_get_contents(dirname(__FILE__).'private.key');
 if (!$privateKey = openssl_pkey_get_private($keyContents))
     die('Private Key failed');
 
 $downloader = new \DziennikLogin\classes\registerDataDownloader\registerDataDownloader;
-$downloader->setCookieFilePath('cookie.txt');
+$downloader->setCookieFilePath(dirname(__FILE__).'cookie.txt');
 
 $processor = new \DziennikLogin\classes\registerDataProcessor\registerDataProcessor;
 $processor->setDatabaseConnectionData($db_host, $db_name, $db_username, $db_password);
