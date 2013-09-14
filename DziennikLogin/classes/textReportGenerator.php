@@ -55,13 +55,11 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
             }
             $this->reportData = $selectQuery->fetchAll();
             //
-            $updateShownStateQuery = $this->dbHandle->prepare('UPDATE
-                    `grades`
+            $updateShownStateQuery = $this->dbHandle->prepare('UPDATE `grades`
                     SET gradeShown = 1
-                    WHERE userId = :userId AND gradeShown = 0
+                    WHERE userId = :userId
                     ');
-            $updateShownStateQuery->bindParam(':userId', $this->userId);
-            $updateShownStateQuery->execute();
+            $updateShownStateQuery->execute(array(':userId' => $this->userId));
             //todo Change the gradeShown value in db
         } elseif ($this->reportType == 'FULL') {
             $selectQuery = $this->dbHandle->prepare('SELECT *
