@@ -54,6 +54,14 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
                 //throw new Exception('Za mało ocen!');
             }
             $this->reportData = $selectQuery->fetchAll();
+            //
+            $updateShownStateQuery = $this->dbHandle->prepare('UPDATE
+                    `grades`
+                    SET gradeShown = 1
+                    WHERE userId = :userId AND gradeShown = 0
+                    ');
+            $selectQuery->bindParam(':userId', $this->userId);
+            $selectQuery->execute();
             //todo Change the gradeShown value in db
         } elseif ($this->reportType == 'FULL') {
             $selectQuery = $this->dbHandle->prepare('SELECT *
