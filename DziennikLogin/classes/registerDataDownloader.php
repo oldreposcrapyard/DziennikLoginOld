@@ -251,7 +251,8 @@ final class registerDataDownloader
      * In the destructor the cURL object is destroyed
      */
     public function __destruct(){
-        curl_close($this->curlHandle);
+        //Commented out, throws warning, works fine.
+        //curl_close($this->curlHandle);
     }
 
 }
