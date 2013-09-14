@@ -60,8 +60,8 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
                     SET gradeShown = 1
                     WHERE userId = :userId AND gradeShown = 0
                     ');
-            $selectQuery->bindParam(':userId', $this->userId);
-            $selectQuery->execute();
+            $updateShownStateQuery->bindParam(':userId', $this->userId);
+            $updateShownStateQuery->execute();
             //todo Change the gradeShown value in db
         } elseif ($this->reportType == 'FULL') {
             $selectQuery = $this->dbHandle->prepare('SELECT *
