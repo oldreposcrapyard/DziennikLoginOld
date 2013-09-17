@@ -44,6 +44,7 @@ foreach ($jobsArray as $i) {
     $mailer->setData($emailArray[0], $reportGenerator->getReportContent());
     $mailer->sendEmail();
     }
+    $reportGenerator->reset();
 }
 //echo $reportGenerator->getReportContent();
 var_dump($jobsArray);

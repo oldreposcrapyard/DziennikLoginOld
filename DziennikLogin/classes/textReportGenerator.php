@@ -111,6 +111,9 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
             throw new Exception('Nieznany odbiorca raportu');
         }
     }
+    public function reset(){
+        unset($this->noRows);
+    }
 
 }
 
