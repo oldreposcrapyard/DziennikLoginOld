@@ -36,11 +36,11 @@ foreach ($jobsArray as $i) {
     $reportGenerator->setUserId($i['userId']);
     $reportGenerator->setReportTo($i['reportTo']);
     $reportGenerator->setReportType('DAILY');
-    $reportGenerator->generateReport();
+    $content = $reportGenerator->generateReport();
     $emailArray[0] = $i['reportEmail'];
 //    var_dump($reportGenerator->reportData);
 //    echo $reportGenerator->reportContent;
-    if($reportGenerator->getReportContent() !== 'EMPTY'){
+    if($content != 'EMPTY'){
     $mailer->setData($emailArray[0], $reportGenerator->getReportContent());
     $mailer->sendEmail();
     }
