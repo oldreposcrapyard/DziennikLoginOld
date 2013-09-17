@@ -36,7 +36,8 @@ foreach ($jobsArray as $i) {
     $reportGenerator->setUserId($i['userId']);
     $reportGenerator->setReportTo($i['reportTo']);
     $reportGenerator->setReportType('DAILY');
-    $content = $reportGenerator->generateReport();
+    $reportGenerator->generateReport();
+    $content = $reportGenerator->getReportContent();
     $emailArray[0] = $i['reportEmail'];
 //    var_dump($reportGenerator->reportData);
 //    echo $reportGenerator->reportContent;
