@@ -16,7 +16,7 @@ require('DB.php');
 class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportGenerator {
 
     private $dbHandle;
-    private $noRows;
+    public $noRows;
 
     public function __construct($databaseHost, $databaseName, $databaseUsername, $databasePassword) {
         $this->dbHandle = new DB("mysql:host=$databaseHost;dbname=$databaseName;charset=utf8", $databaseUsername, $databasePassword, array(
@@ -47,11 +47,7 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
                     ON grades.subjectId = subjects.subjectId  
                     WHERE userId = :userId AND gradeShown = 0
                     ORDER BY grades.gradeValue DESC');
-            $selectQuery->bindParam(':userId', $this->userId);
-            $selectQuery->execute();
-            if ($selectQuery->rowCount() === 0) {
-                $this->noRows = 'DAILY';
-                //throw new Exception('Za mało ocen!');
+            $selectQuery->bindParam(':userId', $this->us
             }
             $this->reportData = $selectQuery->fetchAll();
             //
@@ -59,7 +55,11 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
                     SET gradeShown = 1
                     WHERE userId = :userId
                     ');
-            $updateShownStateQuery->execute(array(':userId' => $this->userId));
+            $updateShownStateQuery->execute(array(':usererId);
+            $selectQuery->execute();
+            if ($selectQuery->rowCount() === 0) {
+                $this->noRows = 'DAILY';
+                //throw new Exception('Za mało ocen!');Id' => $this->userId));
             //todo Change the gradeShown value in db
         } elseif ($this->reportType == 'FULL') {
             $selectQuery = $this->dbHandle->prepare('SELECT *
