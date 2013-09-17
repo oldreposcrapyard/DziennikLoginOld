@@ -22,7 +22,7 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
         $this->dbHandle = new DB("mysql:host=$databaseHost;dbname=$databaseName;charset=utf8", $databaseUsername, $databasePassword, array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
         ));
-        $this->dbHandle->beginTransaction();
+        //$this->dbHandle->beginTransaction();
         $this->dbHandle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->dbHandle->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); 
     }
