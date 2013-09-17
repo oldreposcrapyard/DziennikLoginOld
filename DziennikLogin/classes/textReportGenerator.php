@@ -83,8 +83,7 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
     public function generateReport() {
         $this->getDataToReport();
         if($this->noRows == 'FULL' || $this->noRows == 'DAILY'){
-            $this->reportContent = "Witaj, \r\nDzisiaj nie otrzymano nowych ocen lub w bazie nie znajdują się żadne oceny.\r\n";
-            $this->reportContent .= "Z poważaniem,\r\nDziennikLogin";
+            $this->reportContent = 'EMPTY';
         }
         elseif ($this->reportTo == 'PARENT'&& !isset($this->noRows)) {
 
