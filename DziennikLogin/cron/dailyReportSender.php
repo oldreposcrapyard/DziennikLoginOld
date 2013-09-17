@@ -40,8 +40,10 @@ foreach ($jobsArray as $i) {
     $emailArray[0] = $i['reportEmail'];
 //    var_dump($reportGenerator->reportData);
 //    echo $reportGenerator->reportContent;
+    if($reportGenerator->noRows != ''){
     $mailer->setData($emailArray[0], $reportGenerator->getReportContent());
     $mailer->sendEmail();
+    }
 }
 //echo $reportGenerator->getReportContent();
 var_dump($jobsArray);
