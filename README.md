@@ -6,14 +6,17 @@ A simple app to directly access e-dziennik grades. (EKOS)
 
 TODO
 =============
-Supply the password in other way (encrypted post?)
-Split the project into downloader -> parser -> output file
 Get this into nice graphical form
+
 Write an android app :) (It is good to have faith and dreams...)
 
 DONE:
 =============
 Write teh parser (damn you, awful table layout!)
+
+Split the project into downloader -> parser -> output file
+
+Supply the password in other way (encrypted post?)
 
 
 
