@@ -41,7 +41,7 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
 
     public function getDataToReport() {
         if ($this->reportType == 'DAILY') {
-            $selectQuery = $this->dbHandle->prepare('SELECT grades.*, users.user_name
+            $selectQuery = $this->dbHandle->prepare('SELECT grades.*, users.user_name, subjects.subjectName
                     FROM `grades`
                     INNER JOIN `subjects`
                     ON grades.subjectId = subjects.subjectId  
