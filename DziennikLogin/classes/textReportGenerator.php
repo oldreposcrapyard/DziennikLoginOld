@@ -41,10 +41,12 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
 
     public function getDataToReport() {
         if ($this->reportType == 'DAILY') {
-            $selectQuery = $this->dbHandle->prepare('SELECT *
+            $selectQuery = $this->dbHandle->prepare('SELECT grades.*, users.user_name
                     FROM `grades`
                     INNER JOIN `subjects`
                     ON grades.subjectId = subjects.subjectId  
+                    INNER JOIN users
+                    ON grades.userId = users.user_id
                     WHERE userId = :userId AND gradeShown = 0
                     ORDER BY grades.gradeValue DESC');
             $selectQuery->bindParam(':userId', $this->userId);
@@ -97,7 +99,8 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
             }
             $this->reportContent .= "Z poważaniem,\r\nDziennikLogin";
         } elseif ($this->reportTo == 'CHILD' && !isset($this->noRows)) {
-            $this->reportContent = "Witaj, \r\nPoniżej znajduja się twoje oceny.\r\nOceny uszeregowane są od najwyższej do najniższej.\r\n\r\n";
+            $this->reportContent = "Witaj, ".$this->reportData['0']['user_name'];
+            $this->reportContent .= "\r\nPoniżej znajduja się twoje oceny.\r\nOceny uszeregowane są od najwyższej do najniższej.\r\n\r\n";
             foreach ($this->reportData as $i) {
                 $this->reportContent .= 'Data: ' . $i['gradeDate'] . "\r\n";
                 $this->reportContent .= 'Ocena: ' . $i['gradeValue'] . "\r\n";
