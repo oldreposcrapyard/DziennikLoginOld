@@ -3,6 +3,14 @@ DziennikLogin
 
 A simple app to directly access e-dziennik grades. (EKOS)
 
+Usage:
+=============
+
+#Pobieranie danych
+*/5 * * * * php /home/wwwuser/Sites/dlcron.lawniczak.me/cron/dailyDataDownloader.php
+#Wysylanie co 5 min
+1,6,11,16,21,26,31,36,41,46,51,56 * * * * php /home/wwwuser/Sites/dlcron.lawniczak.me/cron/dailyReportSender.php
+
 
 TODO
 =============
@@ -33,3 +41,5 @@ login page address:  https://92.55.225.11/dbviewer/login.php
 page with grades: https://92.55.225.11/dbviewer/view_data.php?view_name=uczen_uczen_arkusz_ocen_semestr.view
 
 method: POST
+
+
