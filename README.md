@@ -7,9 +7,9 @@ Usage:
 =============
 
 #Pobieranie danych
-*/5 * * * * php /home/wwwuser/Sites/dlcron.lawniczak.me/cron/dailyDataDownloader.php
+*/5 * * * * php /path/to/script/cron/dailyDataDownloader.php
 #Wysylanie co 5 min
-1,6,11,16,21,26,31,36,41,46,51,56 * * * * php /home/wwwuser/Sites/dlcron.lawniczak.me/cron/dailyReportSender.php
+1,6,11,16,21,26,31,36,41,46,51,56 * * * * php /path/to/script/cron/dailyReportSender.php
 
 
 TODO
