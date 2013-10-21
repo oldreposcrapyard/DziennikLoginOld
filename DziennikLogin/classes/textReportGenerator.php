@@ -3,11 +3,6 @@
 require('reportGenerator.php');
 require('DB.php');
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of textReportGenerator
  *
@@ -99,7 +94,7 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
             }
             $this->reportContent .= "Z poważaniem,\r\nDziennikLogin";
         } elseif ($this->reportTo == 'CHILD' && !isset($this->noRows)) {
-            $this->reportContent = "Witaj, ".$this->reportData['0']['user_name'];
+            $this->reportContent = "Witaj ".$this->reportData['0']['user_name'].',';
             $this->reportContent .= "\r\nPoniżej znajduja się twoje oceny.\r\nOceny uszeregowane są od najwyższej do najniższej.\r\n\r\n";
             foreach ($this->reportData as $i) {
                 $this->reportContent .= 'Data: ' . $i['gradeDate'] . "\r\n";
