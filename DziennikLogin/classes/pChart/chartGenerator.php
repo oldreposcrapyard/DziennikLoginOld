@@ -1,8 +1,8 @@
 <?php
 /* Include all the classes */
-include("classes/pChart/class/pDraw.class.php");
-include("classes/pChart/class/pImage.class.php");
-include("classes/pChart/class/pData.class.php");
+include("class/pDraw.class.php");
+include("class/pImage.class.php");
+include("class/pData.class.php");
 
 /* Create your dataset object */
 $myData = new pData();
