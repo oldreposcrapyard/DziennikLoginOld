@@ -23,7 +23,7 @@ $myPicture->setFontProperties(array("FontName"=>"fonts/Forgotte.ttf","FontSize"=
 $myPicture->drawScale();
 
 /* Draw the scale, keep everything automatic */
-$myPicture->drawSplineChart();
+$myPicture->drawBarChart();
 
 /* Build the PNG file and send it to the web browser */
 $myPicture->Stroke();
