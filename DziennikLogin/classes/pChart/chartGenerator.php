@@ -88,12 +88,15 @@ class graphReportGenerator {
         }
     }
 
-    private function generateChart() {
+    public function generateChart() {
         /* Create your dataset object */
         $myData = new pData();
 
         /* Add data in your dataset */
-        $myData->addPoints(array(VOID, 3, 4, 3, 5));
+        $myData->addPoints($this->chartDataConverted);
+        $myData->addPoints(array(1,"1.5",2,"2.5",3,"3.5",4,"4.5",5,"5.5",6),"Labels");
+        $myData->setSerieDescription("Labels","oceny");
+        $myData->setAbscissa("Labels");
 
         /* Create a pChart object and associate your dataset */
         $myPicture = new pImage(700, 230, $myData);
@@ -107,11 +110,12 @@ class graphReportGenerator {
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale();
 
+
         /* Draw the scale, keep everything automatic */
         $myPicture->drawBarChart();
 
         /* Build the PNG file and send it to the web browser */
-        //$myPicture->Stroke();
+        $myPicture->Stroke();
     }
 
     public function getDataForChart() {
@@ -153,6 +157,7 @@ $chartGenerator->setDatabaseConnectionData($db_host, $db_name, $db_username, $db
 $chartGenerator->connectToDatabase();
 $chartGenerator->setUserId(2);
 $chartGenerator->getDataForChart();
+$chartGenerator->generateChart();
 
 var_dump($chartGenerator->chartDataConverted);
 
