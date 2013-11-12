@@ -61,7 +61,7 @@ class graphReportGenerator {
 
     public $chartData;
     
-    private $chartDataConverted;
+    public $chartDataConverted;
     
     public function __construct() {
     }
@@ -77,7 +77,7 @@ class graphReportGenerator {
         $this->databasePassword = $databasePassword;
     }
 
-    private function connectToDatabase() {
+    public function connectToDatabase() {
         try {
             $this->pdoHandle = new \PDO("mysql:host=$this->databaseHost;dbname=$this->databaseName;charset=utf8", $this->databaseUsername, $this->databasePassword, array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
@@ -117,17 +117,17 @@ class graphReportGenerator {
     public function getDataForChart() {
         try {
             $queryHandleSelect = $this->pdoHandle->prepare('SELECT gradeValue,gradeWeight FROM grades WHERE userId=:userId');
-            $queryHandleSelect->bind(':userId',$this->currentUserId);
+            $queryHandleSelect->bindParam(':userId',$this->currentUserId);
             $queryHandleSelect->execute();
             $this->chartData = $queryHandleSelect->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new Exception('Błąd bazy danych:' . $e->getMessage());
         }
         //Convert array from database
-        $this->chartDataConverted = array();
-        //foreach ($subjectIds as $val) {
-        //    $this->registerSubjectsArray[$val['subjectId']] = $val['subjectName'];
-        //}
+        $this->chartDataConverted = array(1=>0,"1.5"=>0,2=>0,"2.5"=>0,3=>0,"3.5"=>0,4=>0,"4.5"=>0,5=>0,"5.5"=>0,6=>0);
+        foreach ($this->chartData as $val) {
+            $this->chartDataConverted[$val['gradeValue']] = $this->chartDataConverted[$val['gradeValue']] + $val['gradeWeight'];
+        }
     }
 
     public function executeProcessing() {
@@ -150,9 +150,10 @@ $db_password = $CONF['databasePassword'];
 $chartGenerator = new graphReportGenerator();
 
 $chartGenerator->setDatabaseConnectionData($db_host, $db_name, $db_username, $db_password);
-$chartGenerator->setUserId(1);
+$chartGenerator->connectToDatabase();
+$chartGenerator->setUserId(2);
 $chartGenerator->getDataForChart();
 
-var_dump($chartGenerator->chartData);
+var_dump($chartGenerator->chartDataConverted);
 
 ?>
