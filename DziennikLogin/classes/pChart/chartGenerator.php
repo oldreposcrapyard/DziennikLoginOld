@@ -4,8 +4,6 @@ include("class/pDraw.class.php");
 include("class/pImage.class.php");
 include("class/pData.class.php");
 
-namespace DziennikLogin\classes\registerDataProcessor;
-
 use \PDO;
 use \Exception;
 use \PDOException;
