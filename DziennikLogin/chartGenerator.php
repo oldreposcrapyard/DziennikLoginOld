@@ -17,7 +17,7 @@ $myPicture = new pImage(700,230,$myData);
 $myPicture->setGraphArea(60,40,670,190);
 
 /* Choose a nice font */
-$myPicture->setFontProperties(array("FontName"=>"classes/pChart/fonts/Forgotte.ttf","FontSize"=>11));
+$myPicture->setFontProperties(array("FontName"=>"Forgotte.ttf","FontSize"=>11));
 
 /* Draw the scale, keep everything automatic */
 $myPicture->drawScale();
