@@ -115,16 +115,16 @@ class graphReportGenerator {
         $myPicture->drawScale();
         /* Create the per bar palette */
         $Palette = array("1" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "1.5" => array("R" => 224, "G" => 100, "B" => 46, "Alpha" => 100),
-            "2" => array("R" => 224, "G" => 214, "B" => 46, "Alpha" => 100),
-            "2.5" => array("R" => 46, "G" => 151, "B" => 224, "Alpha" => 100),
-            "3" => array("R" => 176, "G" => 46, "B" => 224, "Alpha" => 100),
-            "3.5" => array("R" => 224, "G" => 46, "B" => 117, "Alpha" => 100),
-            "4" => array("R" => 92, "G" => 224, "B" => 46, "Alpha" => 100),
-            "4.5" => array("R" => 224, "G" => 176, "B" => 46, "Alpha" => 100),
-            "5" => array("R" => 92, "G" => 224, "B" => 46, "Alpha" => 100),
-            "5.5" => array("R" => 92, "G" => 224, "B" => 46, "Alpha" => 100),
-            "6" => array("R" => 92, "G" => 224, "B" => 46, "Alpha" => 100)
+            "1.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "2" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "2.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "3" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "3.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "4" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "4.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "5.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "6" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100)
             );
 
         /* Draw the scale, keep everything automatic */
