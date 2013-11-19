@@ -114,7 +114,7 @@ class graphReportGenerator {
 
 
         /* Draw the scale, keep everything automatic */
-        $myPicture->drawBarChart(array("DisplayPos"=>LABEL_POS_INSIDE,"DisplayValues"=>TRUE,"Rounded"=>TRUE,"Surrounding"=>30));
+        $myPicture->drawBarChart(array("DisplayValues"=>TRUE,"Rounded"=>TRUE,"Surrounding"=>30));
 
         /* Build the PNG file and send it to the web browser */
         $myPicture->Stroke();
