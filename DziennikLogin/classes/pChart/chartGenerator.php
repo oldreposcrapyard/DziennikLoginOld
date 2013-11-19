@@ -102,21 +102,33 @@ class graphReportGenerator {
 
         /* Create a pChart object and associate your dataset */
         $myPicture = new pImage(700, 230, $myData);
-        $myPicture->drawGradientArea(0,0,699,299,DIRECTION_VERTICAL,array("StartR"=>240,"StartG"=>240,"StartB"=>240,"EndR"=>180,"EndG"=>180,"EndB"=>180,"Alpha"=>100));
-        $myPicture->drawGradientArea(0,0,699,299,DIRECTION_HORIZONTAL,array("StartR"=>240,"StartG"=>240,"StartB"=>240,"EndR"=>180,"EndG"=>180,"EndB"=>180,"Alpha"=>20));
+        $myPicture->drawGradientArea(0, 0, 699, 299, DIRECTION_VERTICAL, array("StartR" => 240, "StartG" => 240, "StartB" => 240, "EndR" => 180, "EndG" => 180, "EndB" => 180, "Alpha" => 100));
+        $myPicture->drawGradientArea(0, 0, 699, 299, DIRECTION_HORIZONTAL, array("StartR" => 240, "StartG" => 240, "StartB" => 240, "EndR" => 180, "EndG" => 180, "EndB" => 180, "Alpha" => 20));
         /* Add a border to the picture */
         $myPicture->drawRectangle(0, 0, 699, 229, array("R" => 0, "G" => 0, "B" => 0));
         /* Define the boundaries of the graph area */
         $myPicture->setGraphArea(60, 40, 670, 190);
         /* Choose a nice font */
         $myPicture->setFontProperties(array("FontName" => "fonts/pf_arma_five.ttf", "FontSize" => 11));
-        $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>0,"G"=>0,"B"=>0,"Alpha"=>10));
+        $myPicture->setShadow(TRUE, array("X" => 1, "Y" => 1, "R" => 0, "G" => 0, "B" => 0, "Alpha" => 10));
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale();
-
+        /* Create the per bar palette */
+        $Palette = array("1" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "1.5" => array("R" => 224, "G" => 100, "B" => 46, "Alpha" => 100),
+            "2" => array("R" => 224, "G" => 214, "B" => 46, "Alpha" => 100),
+            "2.5" => array("R" => 46, "G" => 151, "B" => 224, "Alpha" => 100),
+            "3" => array("R" => 176, "G" => 46, "B" => 224, "Alpha" => 100),
+            "3.5" => array("R" => 224, "G" => 46, "B" => 117, "Alpha" => 100),
+            "4" => array("R" => 92, "G" => 224, "B" => 46, "Alpha" => 100),
+            "4.5" => array("R" => 224, "G" => 176, "B" => 46, "Alpha" => 100),
+            "5" => array("R" => 92, "G" => 224, "B" => 46, "Alpha" => 100),
+            "5.5" => array("R" => 92, "G" => 224, "B" => 46, "Alpha" => 100),
+            "6" => array("R" => 92, "G" => 224, "B" => 46, "Alpha" => 100)
+            );
 
         /* Draw the scale, keep everything automatic */
-        $myPicture->drawBarChart(array("DisplayValues"=>TRUE,"Rounded"=>TRUE,"Surrounding"=>30));
+        $myPicture->drawBarChart(array("DisplayValues" => TRUE, "Rounded" => TRUE, "Surrounding" => 30,"OverrideColors"=>$Palette));
 
         /* Build the PNG file and send it to the web browser */
         $myPicture->Stroke();
