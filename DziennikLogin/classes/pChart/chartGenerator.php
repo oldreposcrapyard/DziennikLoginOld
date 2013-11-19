@@ -1,4 +1,5 @@
 <?php
+
 /* Include all the classes */
 include("class/pDraw.class.php");
 include("class/pImage.class.php");
@@ -58,12 +59,11 @@ class graphReportGenerator {
      * @var string
      */
     private $databasePassword;
-
     public $chartData;
-    
     public $chartDataConverted;
-    
+
     public function __construct() {
+        
     }
 
     public function setUserId($userId) {
@@ -94,18 +94,23 @@ class graphReportGenerator {
 
         /* Add data in your dataset */
         $myData->addPoints($this->chartDataConverted);
-        $myData->addPoints(array(1,"1.5",2,"2.5",3,"3.5",4,"4.5",5,"5.5",6),"Labels");
-        $myData->setSerieDescription("Labels","oceny");
+        $myData->addPoints(array(1, "1.5", 2, "2.5", 3, "3.5", 4, "4.5", 5, "5.5", 6), "Labels");
+        $myData->setSerieDescription("Labels", "oceny");
         $myData->setAbscissa("Labels");
+        /* Overlay with a gradient */
 
         /* Create a pChart object and associate your dataset */
         $myPicture = new pImage(700, 230, $myData);
-
+        /* Add a border to the picture */
+        $myPicture->drawRectangle(0, 0, 699, 229, array("R" => 0, "G" => 0, "B" => 0));
         /* Define the boundaries of the graph area */
         $myPicture->setGraphArea(60, 40, 670, 190);
+        $Settings = array("StartR" => 219, "StartG" => 231, "StartB" => 139, "EndR" => 1, "EndG" => 138, "EndB" => 68, "Alpha" => 50);
+        $myPicture->drawGradientArea(0, 0, 700, 230, DIRECTION_VERTICAL, $Settings);
+        $myPicture->drawGradientArea(0, 0, 700, 20, DIRECTION_VERTICAL, array("StartR" => 0, "StartG" => 0, "StartB" => 0, "EndR" => 50, "EndG" => 50, "EndB" => 50, "Alpha" => 80));
 
         /* Choose a nice font */
-        $myPicture->setFontProperties(array("FontName" => "fonts/Forgotte.ttf", "FontSize" => 11));
+        $myPicture->setFontProperties(array("FontName" => "fonts/pf_arma_five.ttf", "FontSize" => 11));
 
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale();
@@ -121,14 +126,14 @@ class graphReportGenerator {
     public function getDataForChart() {
         try {
             $queryHandleSelect = $this->pdoHandle->prepare('SELECT gradeValue,gradeWeight FROM grades WHERE userId=:userId');
-            $queryHandleSelect->bindParam(':userId',$this->currentUserId);
+            $queryHandleSelect->bindParam(':userId', $this->currentUserId);
             $queryHandleSelect->execute();
             $this->chartData = $queryHandleSelect->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new Exception('Błąd bazy danych:' . $e->getMessage());
         }
         //Convert array from database
-        $this->chartDataConverted = array(1=>0,"1.5"=>0,2=>0,"2.5"=>0,3=>0,"3.5"=>0,4=>0,"4.5"=>0,5=>0,"5.5"=>0,6=>0);
+        $this->chartDataConverted = array(1 => 0, "1.5" => 0, 2 => 0, "2.5" => 0, 3 => 0, "3.5" => 0, 4 => 0, "4.5" => 0, 5 => 0, "5.5" => 0, 6 => 0);
         foreach ($this->chartData as $val) {
             $this->chartDataConverted[$val['gradeValue']] = $this->chartDataConverted[$val['gradeValue']] + $val['gradeWeight'];
         }
@@ -141,7 +146,6 @@ class graphReportGenerator {
     }
 
 }
-
 
 //end of class
 require 'config.local.php';
@@ -160,5 +164,4 @@ $chartGenerator->getDataForChart();
 $chartGenerator->generateChart();
 
 var_dump($chartGenerator->chartDataConverted);
-
 ?>
