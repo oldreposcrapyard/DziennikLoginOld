@@ -106,20 +106,6 @@ class graphReportGenerator {
         $myPicture->drawRectangle(0, 0, 699, 229, array("R" => 0, "G" => 0, "B" => 0));
         /* Define the boundaries of the graph area */
         $myPicture->setGraphArea(60, 40, 670, 190);
-        $Settings = array("StartR" => 219, "StartG" => 231, "StartB" => 139, "EndR" => 1, "EndG" => 138, "EndB" => 68, "Alpha" => 50);
-        $myPicture->drawGradientArea(0, 0, 700, 230, DIRECTION_VERTICAL, $Settings);
-        $myPicture->drawGradientArea(0, 0, 700, 20, DIRECTION_VERTICAL, array("StartR" => 0, "StartG" => 0, "StartB" => 0, "EndR" => 50, "EndG" => 50, "EndB" => 50, "Alpha" => 80));
-        $Settings2 = array("R" => 170, "G" => 183, "B" => 87, "Dash" => 1, "DashR" => 190, "DashG" => 203, "DashB" => 107);
-        $myPicture->drawFilledRectangle(0, 0, 700, 230, $Settings2);
-        /* Create the per bar palette 
-        $Palette = array("1,5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "1" => array("R" => 224, "G" => 100, "B" => 46, "Alpha" => 100),
-            "2" => array("R" => 224, "G" => 214, "B" => 46, "Alpha" => 100),
-            "3" => array("R" => 46, "G" => 151, "B" => 224, "Alpha" => 100),
-            "4" => array("R" => 176, "G" => 46, "B" => 224, "Alpha" => 100),
-            "5" => array("R" => 224, "G" => 46, "B" => 117, "Alpha" => 100),
-            "6" => array("R" => 92, "G" => 224, "B" => 46, "Alpha" => 100),
-            "2,5" => array("R" => 224, "G" => 176, "B" => 46, "Alpha" => 100));*/
         /* Choose a nice font */
         $myPicture->setFontProperties(array("FontName" => "fonts/pf_arma_five.ttf", "FontSize" => 11));
         $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>0,"G"=>0,"B"=>0,"Alpha"=>10));
@@ -128,7 +114,7 @@ class graphReportGenerator {
 
 
         /* Draw the scale, keep everything automatic */
-        $myPicture->drawBarChart(array("DisplayPos"=>LABEL_POS_INSIDE,"DisplayValues"=>TRUE,"Rounded"=>TRUE,"Surrounding"=>30,"OverrideColors"=>$Palette));
+        $myPicture->drawBarChart(array("DisplayPos"=>LABEL_POS_INSIDE,"DisplayValues"=>TRUE,"Rounded"=>TRUE,"Surrounding"=>30));
 
         /* Build the PNG file and send it to the web browser */
         $myPicture->Stroke();
