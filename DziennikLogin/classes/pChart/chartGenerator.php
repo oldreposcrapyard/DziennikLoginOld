@@ -122,6 +122,9 @@ class graphReportGenerator {
         /* Choose a nice font */
         $myPicture->setFontProperties(array("FontName" => "fonts/pf_arma_five.ttf", "FontSize" => 11));
 
+        $MyData->setAbscissa("Oceny");
+        $MyData->setAxisName(0,"Waga/Ilość");
+        $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>0,"G"=>0,"B"=>0,"Alpha"=>10));
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale();
 
