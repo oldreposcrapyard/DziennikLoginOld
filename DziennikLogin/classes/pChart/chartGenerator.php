@@ -94,9 +94,9 @@ class graphReportGenerator {
 
         /* Add data in your dataset */
         $myData->addPoints($this->chartDataConverted);
-        $myData->addPoints(array(1, "1.5", 2, "2.5", 3, "3.5", 4, "4.5", 5, "5.5", 6), "Labels");
-        $myData->setSerieDescription("Labels", "oceny");
-        $myData->setAbscissa("Labels");
+        $myData->addPoints(array(1, "1.5", 2, "2.5", 3, "3.5", 4, "4.5", 5, "5.5", 6), "Oceny");
+        $myData->setSerieDescription("Oceny", "oceny");
+        $MyData->setAxisName(0,"Waga/Ilość");
         /* Overlay with a gradient */
 
         /* Create a pChart object and associate your dataset */
@@ -121,9 +121,6 @@ class graphReportGenerator {
             "2,5" => array("R" => 224, "G" => 176, "B" => 46, "Alpha" => 100));
         /* Choose a nice font */
         $myPicture->setFontProperties(array("FontName" => "fonts/pf_arma_five.ttf", "FontSize" => 11));
-
-        $MyData->setAbscissa("Oceny");
-        $MyData->setAxisName(0,"Waga/Ilość");
         $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>0,"G"=>0,"B"=>0,"Alpha"=>10));
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale();
