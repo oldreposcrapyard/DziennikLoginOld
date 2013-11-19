@@ -102,6 +102,8 @@ class graphReportGenerator {
 
         /* Create a pChart object and associate your dataset */
         $myPicture = new pImage(700, 230, $myData);
+        $myPicture->drawGradientArea(0,0,699,299,DIRECTION_VERTICAL,array("StartR"=>240,"StartG"=>240,"StartB"=>240,"EndR"=>180,"EndG"=>180,"EndB"=>180,"Alpha"=>100));
+        $myPicture->drawGradientArea(0,0,699,299,DIRECTION_HORIZONTAL,array("StartR"=>240,"StartG"=>240,"StartB"=>240,"EndR"=>180,"EndG"=>180,"EndB"=>180,"Alpha"=>20));
         /* Add a border to the picture */
         $myPicture->drawRectangle(0, 0, 699, 229, array("R" => 0, "G" => 0, "B" => 0));
         /* Define the boundaries of the graph area */
