@@ -95,8 +95,8 @@ class graphReportGenerator {
         /* Add data in your dataset */
         $myData->addPoints($this->chartDataConverted);
         $myData->addPoints(array(1, "1.5", 2, "2.5", 3, "3.5", 4, "4.5", 5, "5.5", 6), "Labels");
-        $myData->setSerieDescription("Labels", "oceny");
-        $myData->setAxisName(0,"Waga/Ilość");
+        $myData->setSerieDescription("Labels", "Oceny");
+        //$myData->setAxisName(0,"Waga/Ilość");
         /* Overlay with a gradient */
 
         /* Create a pChart object and associate your dataset */
