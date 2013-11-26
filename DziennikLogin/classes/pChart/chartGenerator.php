@@ -114,21 +114,21 @@ class graphReportGenerator {
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale();
         /* Create the per bar palette */
-        $Palette = array("1" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "1.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+        $Palette = array("0" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "1" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
             "2" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "2.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
             "3" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "3.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
             "4" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "4.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
             "5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "5.5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "6" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100)
+            "6" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "7" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "8" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "9" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
+            "10" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100)
             );
 
         /* Draw the scale, keep everything automatic */
-        $myPicture->drawBarChart(array("DisplayValues" => TRUE, "Rounded" => TRUE, "Surrounding" => 30,"OverrideColors"=>$Palette));
+        $myPicture->drawBarChart(array("DisplayValues" => TRUE, "DisplayShadow"=>TRUE,"Rounded" => TRUE, "Surrounding" => 30,"OverrideColors"=>$Palette,"Draw0Line"=>TRUE));
 
         /* Build the PNG file and send it to the web browser */
         $myPicture->Stroke();
