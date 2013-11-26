@@ -3,6 +3,7 @@
 //begin work on api for mobile and desktop apps
 //end of class
 require 'config.local.php';
+require 'classes/pChart/chartGenerator.php';
 
 $db_host = $CONF['databaseHost'];
 $db_name = $CONF['databaseName'];
