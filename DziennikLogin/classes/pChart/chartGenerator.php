@@ -114,17 +114,17 @@ class graphReportGenerator {
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale();
         /* Create the per bar palette */
-        $Palette = array("0" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "1" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "2" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "3" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "4" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "5" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "6" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "7" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "8" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "9" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100),
-            "10" => array("R" => 188, "G" => 224, "B" => 46, "Alpha" => 100)
+        $Palette = array("0" => array("R" => 255, "G" => 0, "B" => 0, "Alpha" => 100),//FF0000 don
+            "1" => array("R" => 255, "G" => 51, "B" => 0, "Alpha" => 100),//FF3300 don
+            "2" => array("R" => 255, "G" => 102, "B" => 0, "Alpha" => 100),//FF6600 don
+            "3" => array("R" => 255, "G" => 153, "B" => 0, "Alpha" => 100),//FF9900 don
+            "4" => array("R" => 255, "G" => 204, "B" => 0, "Alpha" => 100),//FFCC00 don
+            "5" => array("R" => 255, "G" => 255, "B" => 0, "Alpha" => 100),//FFFF00 don
+            "6" => array("R" => 204, "G" => 255, "B" => 0, "Alpha" => 100),//CCFF00 don
+            "7" => array("R" => 153, "G" => 255, "B" => 0, "Alpha" => 100),//99FF00 don
+            "8" => array("R" => 102, "G" => 255, "B" => 0, "Alpha" => 100),//66FF00 don
+            "9" => array("R" => 51, "G" => 255, "B" => 0, "Alpha" => 100),//33FF00 don
+            "10" => array("R" => 0, "G" =>255, "B" => 0, "Alpha" => 100)//00FF00 don
             );
 
         /* Draw the scale, keep everything automatic */
