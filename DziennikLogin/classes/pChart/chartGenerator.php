@@ -10,15 +10,14 @@ use \Exception;
 use \PDOException;
 
 /**
- * Parse the data from register
+ * Generate graphs with required data
  *
- * This class parses the data from register to arrays,
- * so it can be written to database.
+ * This class generates charts for specified users.
  *
  * @author Marcin Ławniczak <marcin.safmb@gmail.com>
  * @package DziennikLogin
  * @version 0.1
- * @return string|false
+ * @return image
  *
  * 
  */
@@ -59,11 +58,10 @@ class graphReportGenerator {
      * @var string
      */
     private $databasePassword;
-    public $chartData;
-    public $chartDataConverted;
+    private $chartData;
+    private $chartDataConverted;
 
-    public function __construct() {
-        
+    public function __construct() {    
     }
 
     public function setUserId($userId) {
@@ -77,7 +75,7 @@ class graphReportGenerator {
         $this->databasePassword = $databasePassword;
     }
 
-    public function connectToDatabase() {
+    private function connectToDatabase() {
         try {
             $this->pdoHandle = new \PDO("mysql:host=$this->databaseHost;dbname=$this->databaseName;charset=utf8", $this->databaseUsername, $this->databasePassword, array(
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
@@ -88,7 +86,7 @@ class graphReportGenerator {
         }
     }
 
-    public function generateChart() {
+    private function generateChart() {
         /* Create your dataset object */
         $myData = new pData();
 
@@ -134,7 +132,7 @@ class graphReportGenerator {
         $myPicture->Stroke();
     }
 
-    public function getDataForChart() {
+    private function getDataForChart() {
         try {
             $queryHandleSelect = $this->pdoHandle->prepare('SELECT gradeValue,gradeWeight FROM grades WHERE userId=:userId');
             $queryHandleSelect->bindParam(':userId', $this->currentUserId);
@@ -157,22 +155,4 @@ class graphReportGenerator {
     }
 
 }
-
-//end of class
-require 'config.local.php';
-
-$db_host = $CONF['databaseHost'];
-$db_name = $CONF['databaseName'];
-$db_username = $CONF['databaseUsername'];
-$db_password = $CONF['databasePassword'];
-
-$chartGenerator = new graphReportGenerator();
-
-$chartGenerator->setDatabaseConnectionData($db_host, $db_name, $db_username, $db_password);
-$chartGenerator->connectToDatabase();
-$chartGenerator->setUserId(2);
-$chartGenerator->getDataForChart();
-$chartGenerator->generateChart();
-
-var_dump($chartGenerator->chartDataConverted);
 ?>
