@@ -113,18 +113,18 @@ class graphReportGenerator {
         $myPicture->setShadow(TRUE, array("X" => 1, "Y" => 1, "R" => 0, "G" => 0, "B" => 0, "Alpha" => 10));
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale();
-        /* Create the per bar palette */
-        $Palette = array("0" => array("R" => 255, "G" => 0, "B" => 0, "Alpha" => 70),//FF0000 don
-            "1" => array("R" => 255, "G" => 51, "B" => 0, "Alpha" => 70),//FF3300 don
-            "2" => array("R" => 255, "G" => 102, "B" => 0, "Alpha" => 70),//FF6600 don
-            "3" => array("R" => 255, "G" => 153, "B" => 0, "Alpha" => 70),//FF9900 don
-            "4" => array("R" => 255, "G" => 204, "B" => 0, "Alpha" => 70),//FFCC00 don
-            "5" => array("R" => 255, "G" => 255, "B" => 0, "Alpha" => 70),//FFFF00 don
-            "6" => array("R" => 204, "G" => 255, "B" => 0, "Alpha" => 70),//CCFF00 don
-            "7" => array("R" => 153, "G" => 255, "B" => 0, "Alpha" => 70),//99FF00 don
-            "8" => array("R" => 102, "G" => 255, "B" => 0, "Alpha" => 70),//66FF00 don
-            "9" => array("R" => 51, "G" => 255, "B" => 0, "Alpha" => 70),//33FF00 don
-            "10" => array("R" => 0, "G" =>255, "B" => 0, "Alpha" => 70)//00FF00 don
+        /* Create the per bar palette */ //as per http://ideone.com/vWSh6o
+        $Palette = array("0" => array("R" => 255, "G" => 0, "B" => 0, "Alpha" => 70),
+            "1" => array("R" => 230, "G" => 25, "B" => 0, "Alpha" => 70),
+            "2" => array("R" => 205, "G" => 50, "B" => 0, "Alpha" => 70),
+            "3" => array("R" => 180, "G" => 75, "B" => 0, "Alpha" => 70),
+            "4" => array("R" => 155, "G" => 100, "B" => 0, "Alpha" => 70),
+            "5" => array("R" => 130, "G" => 125, "B" => 0, "Alpha" => 70),
+            "6" => array("R" => 105, "G" => 150, "B" => 0, "Alpha" => 70),
+            "7" => array("R" => 80, "G" => 175, "B" => 0, "Alpha" => 70),
+            "8" => array("R" => 55, "G" => 200, "B" => 0, "Alpha" => 70),
+            "9" => array("R" => 30, "G" => 225, "B" => 0, "Alpha" => 70),
+            "10" => array("R" => 0, "G" =>255, "B" => 0, "Alpha" => 70)
             );
 
         /* Draw the scale, keep everything automatic */
