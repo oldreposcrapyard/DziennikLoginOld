@@ -114,17 +114,17 @@ class graphReportGenerator {
         /* Draw the scale, keep everything automatic */
         $myPicture->drawScale();
         /* Create the per bar palette */
-        $Palette = array("0" => array("R" => 255, "G" => 0, "B" => 0, "Alpha" => 100),//FF0000 don
-            "1" => array("R" => 255, "G" => 51, "B" => 0, "Alpha" => 100),//FF3300 don
-            "2" => array("R" => 255, "G" => 102, "B" => 0, "Alpha" => 100),//FF6600 don
-            "3" => array("R" => 255, "G" => 153, "B" => 0, "Alpha" => 100),//FF9900 don
-            "4" => array("R" => 255, "G" => 204, "B" => 0, "Alpha" => 100),//FFCC00 don
-            "5" => array("R" => 255, "G" => 255, "B" => 0, "Alpha" => 100),//FFFF00 don
-            "6" => array("R" => 204, "G" => 255, "B" => 0, "Alpha" => 100),//CCFF00 don
-            "7" => array("R" => 153, "G" => 255, "B" => 0, "Alpha" => 100),//99FF00 don
-            "8" => array("R" => 102, "G" => 255, "B" => 0, "Alpha" => 100),//66FF00 don
-            "9" => array("R" => 51, "G" => 255, "B" => 0, "Alpha" => 100),//33FF00 don
-            "10" => array("R" => 0, "G" =>255, "B" => 0, "Alpha" => 100)//00FF00 don
+        $Palette = array("0" => array("R" => 255, "G" => 0, "B" => 0, "Alpha" => 70),//FF0000 don
+            "1" => array("R" => 255, "G" => 51, "B" => 0, "Alpha" => 70),//FF3300 don
+            "2" => array("R" => 255, "G" => 102, "B" => 0, "Alpha" => 70),//FF6600 don
+            "3" => array("R" => 255, "G" => 153, "B" => 0, "Alpha" => 70),//FF9900 don
+            "4" => array("R" => 255, "G" => 204, "B" => 0, "Alpha" => 70),//FFCC00 don
+            "5" => array("R" => 255, "G" => 255, "B" => 0, "Alpha" => 70),//FFFF00 don
+            "6" => array("R" => 204, "G" => 255, "B" => 0, "Alpha" => 70),//CCFF00 don
+            "7" => array("R" => 153, "G" => 255, "B" => 0, "Alpha" => 70),//99FF00 don
+            "8" => array("R" => 102, "G" => 255, "B" => 0, "Alpha" => 70),//66FF00 don
+            "9" => array("R" => 51, "G" => 255, "B" => 0, "Alpha" => 70),//33FF00 don
+            "10" => array("R" => 0, "G" =>255, "B" => 0, "Alpha" => 70)//00FF00 don
             );
 
         /* Draw the scale, keep everything automatic */
