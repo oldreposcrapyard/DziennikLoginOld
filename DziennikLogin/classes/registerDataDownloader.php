@@ -106,7 +106,7 @@ final class registerDataDownloader
     {
             //Ignore the SSL communication, because the certificate is outdated
             curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+            curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYHOST, FALSE);
             //Set the useragent (This one is my laptop)
             curl_setopt($this->curlHandle, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.22 (KHTML, like Gecko) Ubuntu Chromium/25.0.1364.160 Chrome/25.0.1364.160 Safari/537.22');
             //Specify that we want the content after the query
