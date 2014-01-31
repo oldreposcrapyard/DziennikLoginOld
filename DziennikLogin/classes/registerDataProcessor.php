@@ -231,7 +231,7 @@ class registerDataProcessor {
                     $gradeDate = date('Y-m-d', strtotime($mouseDom->find('td', '1')->plaintext)); //date of grade
                     @$gradeTitle = $mouseDom->find('i', '1')->plaintext; //title of grade
                     if (is_null($gradeTitle)) {
-                        $gradeTitle = 'BRAK'; //dirty hack around those lazy teachers that don't set the title
+                        $gradeTitle = 'BRAK OPISU OCENY'; //dirty hack around those lazy teachers that don't set the title
                     }
                     $gradeGroup = $mouseDom->find('p', '1')->plaintext; //group of grade
                     $gradeWeight = trim($mouseDom->find('td', '3')->plaintext); //weight of grade
