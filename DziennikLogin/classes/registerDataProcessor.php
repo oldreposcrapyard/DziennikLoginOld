@@ -174,7 +174,17 @@ class registerDataProcessor {
 
     private function getGradeTrimester() {
         //trimester:
-        $this->gradeTrimester = filter_var($this->registerGradePageDomObject->find('b', 0)->plaintext, FILTER_SANITIZE_NUMBER_INT);
+        $gradeTrimester = $this->registerGradePageDomObject->find('b', 1)->plaintext;
+        if (strstr('I ',$gradeTrimester)){
+            $this->gradeTrimester = 1;
+        }elseif(strstr('II ',$gradeTrimester)){
+            $this->gradeTrimester = 2;
+        }elseif(strstr('III ',$gradeTrimester)){
+            $this->gradeTrimester = 3;
+        }else{
+            $this->gradeTrimester = 9;
+        }
+        //$this->gradeTrimester = filter_var($gradeTrimester, FILTER_SANITIZE_NUMBER_INT);
     }
 
     private function processGrades() {
