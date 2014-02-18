@@ -175,12 +175,12 @@ class registerDataProcessor {
     private function getGradeTrimester() {
         //trimester:
         $gradeTrimester = $this->registerGradePageDomObject->find('b', 1)->plaintext;
-        if (strstr($gradeTrimester,'I ')){
-            $this->gradeTrimester = 1;
+        if (strstr($gradeTrimester,'III ')){
+            $this->gradeTrimester = 3;
         }elseif(strstr($gradeTrimester,'II ')){
             $this->gradeTrimester = 2;
-        }elseif(strstr($gradeTrimester,'III ')){
-            $this->gradeTrimester = 3;
+        }elseif(strstr($gradeTrimester,'I ')){
+            $this->gradeTrimester = 1;
         }else{
             $this->gradeTrimester = 9;
         }
