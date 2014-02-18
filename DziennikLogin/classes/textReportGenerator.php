@@ -90,9 +90,10 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
                 $this->reportContent .= 'Ocena: ' . $i['gradeValue'] . "\r\n";
                 $this->reportContent .= 'Waga: ' . $i['gradeWeight'] . "\r\n";
                 $this->reportContent .= 'Przedmiot: ' . $i['subjectName'] . "\r\n";
+                $this->reportContent .= 'Trymestr:' . $i['gradeTrimester']. "\r\n";
                 $this->reportContent .= 'Tytuł: ' . $i['gradeAbbrev'] . ' - ' . htmlspecialchars_decode($i['gradeTitle']) . "\r\n\r\n";
             }
-            $this->reportContent .= "Z poważaniem,\r\nDziennikLogin";
+            $this->reportContent .= "Z poważaniem,\r\nDziennikLogin\r\n";
         } elseif ($this->reportTo == 'CHILD' && !isset($this->noRows)) {
             $this->reportContent = "Witaj ".$this->reportData['0']['user_name'].',';
             $this->reportContent .= "\r\nPoniżej znajduja się twoje oceny.\r\nOceny uszeregowane są od najwyższej do najniższej.\r\n\r\n";
@@ -101,6 +102,7 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
                 $this->reportContent .= 'Ocena: ' . $i['gradeValue'] . "\r\n";
                 $this->reportContent .= 'Waga: ' . $i['gradeWeight'] . "\r\n";
                 $this->reportContent .= 'Przedmiot: ' . $i['subjectName'] . "\r\n";
+                $this->reportContent .= 'Trymestr:' . $i['gradeTrimester']. "\r\n";
                 $this->reportContent .= 'Tytuł: ' . $i['gradeAbbrev'] . ' - ' . htmlspecialchars_decode($i['gradeTitle']) . "\r\n\r\n";
             }
             $this->reportContent .= "Z poważaniem,\r\nDziennikLogin";
