@@ -90,7 +90,7 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
                 $this->reportContent .= 'Ocena: ' . $i['gradeValue'] . "\r\n";
                 $this->reportContent .= 'Waga: ' . $i['gradeWeight'] . "\r\n";
                 $this->reportContent .= 'Przedmiot: ' . $i['subjectName'] . "\r\n";
-                $this->reportContent .= 'Trymestr:' . $i['gradeTrimester']. "\r\n";
+                $this->reportContent .= 'Trymestr: ' . $i['gradeTrimester']. "\r\n";
                 $this->reportContent .= 'Tytuł: ' . $i['gradeAbbrev'] . ' - ' . htmlspecialchars_decode($i['gradeTitle']) . "\r\n\r\n";
             }
             $this->reportContent .= "Z poważaniem,\r\nDziennikLogin\r\n";
@@ -102,7 +102,7 @@ class textReportGenerator extends \DziennikLogin\classes\reportGenerator\reportG
                 $this->reportContent .= 'Ocena: ' . $i['gradeValue'] . "\r\n";
                 $this->reportContent .= 'Waga: ' . $i['gradeWeight'] . "\r\n";
                 $this->reportContent .= 'Przedmiot: ' . $i['subjectName'] . "\r\n";
-                $this->reportContent .= 'Trymestr:' . $i['gradeTrimester']. "\r\n";
+                $this->reportContent .= 'Trymestr: ' . $i['gradeTrimester']. "\r\n";
                 $this->reportContent .= 'Tytuł: ' . $i['gradeAbbrev'] . ' - ' . htmlspecialchars_decode($i['gradeTitle']) . "\r\n\r\n";
             }
             $this->reportContent .= "Z poważaniem,\r\nDziennikLogin";
