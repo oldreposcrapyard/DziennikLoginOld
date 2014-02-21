@@ -1,0 +1,8 @@
+{
+    "config": {
+        "vendor-dir": "classes"
+    },
+    "require": {
+        "monolog/monolog": "1.7.0"
+    }
+}
