@@ -1,5 +1,5 @@
 <?php
-require '../classes/Monolog/Logger.php';
+//require '../classes/Monolog/Logger.php';
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\FirePHPHandler;
