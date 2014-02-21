@@ -1,6 +1,6 @@
 {
     "config": {
-        "vendor-dir": "classes"
+        "vendor-dir": "DziennikLogin/classes"
     },
     "require": {
         "monolog/monolog": "1.7.0"
