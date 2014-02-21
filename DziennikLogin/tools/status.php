@@ -7,7 +7,7 @@ use Monolog\Handler\FirePHPHandler;
 // Create the logger
 $logger = new Logger('DziennikLoginLogger');
 // Now add some handlers
-$logger->pushHandler(new StreamHandler('logs/error.log', Logger::DEBUG));
+$logger->pushHandler(new StreamHandler(__DIR__.'logs/error.log', Logger::DEBUG));
 $logger->pushHandler(new FirePHPHandler());
 
 // You can now use your logger
