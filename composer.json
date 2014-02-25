@@ -3,6 +3,7 @@
         "vendor-dir": "DziennikLogin/classes"
     },
     "require": {
-        "monolog/monolog": "1.7.0"
+        "monolog/monolog": "1.7.0",
+        "swiftmailer/swiftmailer": "v5.0.3"
     }
 }

@@ -2,7 +2,7 @@
 <?php
 
 // This file will contain code responsible for sending files over email.
-require dirname(__FILE__).'/../classes/SwiftMail/swift_required.php';
+require '../classes/autoload.php';
 require dirname(__FILE__).'/../config.local.php';
 
 class emailSendHook {
