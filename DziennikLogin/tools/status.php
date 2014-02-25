@@ -78,7 +78,7 @@ if (isDomainAvailible('https://92.55.225.11')) {
         <meta name="description" content="">
         <meta name="author" content="">
         <!-- Le styles -->
-        <link href="../classes/bootstrap/css/bootstrap.min.css" rel="stylesheet"  media="screen">
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"  media="screen">
         <style type="text/css">
             body {
                 padding-top: 20px;
