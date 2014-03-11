@@ -111,7 +111,7 @@ if (isDomainAvailible('https://92.55.225.11')) {
 
             <hr>
             <table class="table table-hover">
-                <th><td>System</td><td>Status</td></th>
+                <th><td>Status</td></th>
                 <tr><td>Baza danych</td><td><span class="glyphicon glyphicon-<?php echo $statuses['baza']; ?>"></span></td></tr>
                 <tr><td>Dziennik elektroniczny</td><td><span class="glyphicon glyphicon-<?php echo $statuses['dziennik']; ?>"></span></td></tr>
             </table>
