@@ -1,8 +1,7 @@
-
 <?php
 
 // This file will contain code responsible for sending files over email.
-require '../classes/autoload.php';
+require dirname(__FILE__).'/../classes/autoload.php';
 require dirname(__FILE__).'/../config.local.php';
 
 class emailSendHook {
