@@ -1,6 +1,6 @@
 <?php
 
-require 'reportGenerator.php';
+require '/reportGenerator.php';
 include('pChart/class/pData.class.php');
 include('pChart/class/pDraw.class.php');
 include('pChart/class/pImage.class.php');
