@@ -120,7 +120,7 @@ class graphReportGenerator extends \DziennikLogin\classes\reportGenerator\report
         /* Draw the scale, keep everything automatic */
         $myPicture->drawBarChart(array("DisplayValues" => TRUE, "DisplayShadow"=>TRUE,"Rounded" => TRUE, "Surrounding" => 30,"OverrideColors"=>$Palette,"Draw0Line"=>TRUE));
         /* Build the PNG file and send it to the web browser */
-        $myPicture->Stroke();
+        $myPicture->render("mypic.png");
 
     }
 
