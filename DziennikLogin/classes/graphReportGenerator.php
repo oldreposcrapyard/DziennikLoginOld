@@ -1,6 +1,6 @@
 <?php
 
-require '/reportGenerator.php';
+require ('reportGenerator.php');
 include('pChart/class/pData.class.php');
 include('pChart/class/pDraw.class.php');
 include('pChart/class/pImage.class.php');
@@ -23,7 +23,7 @@ use \PDO;
 use \Exception;
 use \PDOException;
     
-class graphReportGenerator extends reportGenerator{
+class graphReportGenerator extends \DziennikLogin\classes\reportGenerator\reportGenerator{
 
         /**
      * The handle to PDO object
