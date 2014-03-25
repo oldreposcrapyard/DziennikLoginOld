@@ -144,6 +144,7 @@ class graphReportGenerator extends \DziennikLogin\classes\reportGenerator\report
         $this->connectToDatabase();
         $this->getDataToReport();
         $this->prepareChart();
+        print_r($this->reportData);
     }
     
 }
