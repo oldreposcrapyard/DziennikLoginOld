@@ -123,7 +123,7 @@ class graphReportGenerator extends \DziennikLogin\classes\reportGenerator\report
 
     }
 
-    private function getDataToReport() {
+    public function getDataToReport() {
         try {
             $queryHandleSelect = $this->pdoHandle->prepare('SELECT gradeValue,gradeWeight FROM grades WHERE userId=:userId');
             $queryHandleSelect->bindParam(':userId', $this->userId);
